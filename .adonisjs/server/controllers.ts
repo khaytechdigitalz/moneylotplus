@@ -5,6 +5,7 @@
 
 export const controllers = {
   AccessTokens: () => import('#controllers/access_tokens_controller'),
+  Compliance: () => import('#controllers/compliance_controller'),
   Dashboards: () => import('#controllers/dashboards_controller'),
   ForgotPasswords: () => import('#controllers/forgot_passwords_controller'),
   Mfas: () => import('#controllers/mfas_controller'),
