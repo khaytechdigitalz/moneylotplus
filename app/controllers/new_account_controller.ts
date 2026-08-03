@@ -70,14 +70,14 @@ export default class NewAccountsController {
       await trx.commit()
 
       // 6. Generate a Cryptographically Signed URL for email verification
-      const FRONT_URL = env.get('FRONT_URL')
+      const SERVER_URL = env.get('SERVER_URL')
 
       const verificationUrl = router.makeSignedUrl(
         'auth.verify_email', 
         [user.id],      
         { 
           expiresIn: '24h',
-          prefixUrl: FRONT_URL 
+          prefixUrl: SERVER_URL 
         }
       )
 
