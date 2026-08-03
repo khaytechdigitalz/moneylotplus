@@ -89,7 +89,7 @@ declare otpTokenAttempts: number
   // The AuthFinder mixin manages this automatically!
 
   static accessTokens = DbAccessTokensProvider.forModel(User, {
-    expiresIn: '30 days',
+    expiresIn: '1 day',
     table: 'api_tokens',
   })
   

@@ -28,8 +28,13 @@ export default class ComplianceController {
 
       return response.ok({
         success: true,
+        user: {
+          id: user.id,
+          email: user.email,
+          status: user.status,
+        },
         token,
-      })
+      });
    } catch (error: any) {
     // If the error came from Sumsub's API response
     if (error.response) {
