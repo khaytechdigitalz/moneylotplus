@@ -128,7 +128,7 @@ export default class ForgotPasswordsController {
     }
 
     // Find the user by the temporary reset token
-    const user = await User.findBy('temp_two_factor_token', resetToken)
+    const user = await User.findBy('otp_token', resetToken)
     if (!user) {
       return response.badRequest({ message: 'Your reset session has expired or is invalid.' })
     }
