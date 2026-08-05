@@ -137,4 +137,59 @@ export class SumsubService {
       }
     }
   }
+
+  /**
+   * Fetch applicant status from Sumsub using your app's internal user ID (externalUserId)
+   */
+  public static async getApplicantStatus(userId: string | number) {
+    const appToken = env.get('SUMSUB_APP_TOKEN')!
+    
+    // Extract raw string from Secret if wrapped by env
+    // Fetch from env
+    const secretEnv = env.get('SUMSUB_SECRET_KEY')!
+
+    // Safe extraction regardless of whether it is a string or a Secret object
+    const secretKey = typeof secretEnv === 'object' && secretEnv !== null && 'release' in secretEnv
+      ? (secretEnv as { release: () => string }).release()
+      : String(secretEnv)
+
+    const urlPath = `/resources/applicants/-;externalUserId=${userId}/one`
+    const timestamp = Math.floor(Date.now() / 1000)
+
+    // Generate Sumsub HMAC SHA256 signature
+    const signature = crypto.createHmac('sha256', secretKey)
+    signature.update(timestamp + 'GET' + urlPath)
+    const hexSignature = signature.digest('hex')
+
+    try {
+      const response = await axios.get(`https://api.sumsub.com${urlPath}`, {
+        headers: {
+          'X-App-Token': appToken,
+          'X-App-Access-Sig': hexSignature,
+          'X-App-Access-Ts': timestamp,
+          'Accept': 'application/json',
+        },
+      })
+
+      const data = response.data
+
+      return {
+        applicantId: data.id,
+        externalUserId: data.externalUserId,
+        // Status values: 'init', 'pending', 'prechecked', 'queued', 'completed'
+        reviewStatus: data.review?.reviewStatus, 
+        // Result values: 'GREEN' (Approved), 'RED' (Rejected)
+        reviewAnswer: data.review?.reviewResult?.reviewAnswer, 
+        rejectLabels: data.review?.reviewResult?.rejectLabels || [],
+        clientComment: data.review?.reviewResult?.clientComment || null,
+        isApproved: data.review?.reviewResult?.reviewAnswer === 'GREEN',
+        isRejected: data.review?.reviewResult?.reviewAnswer === 'RED',
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response?.status === 404) {
+        return { reviewStatus: 'not_created', isApproved: false, isRejected: false }
+      }
+      throw error
+    }
+  }
 }

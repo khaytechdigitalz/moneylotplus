@@ -11,28 +11,43 @@ export default class UsersComplianceAssessment extends BaseModel {
   declare userId: number
 
   @column()
-  declare profileType: 'individual' | 'business'
+  declare profileType: string
 
   // Column 1: Array of chosen services
   @column({
     prepare: (value) => (value ? JSON.stringify(value) : null),
     consume: (value) => (typeof value === 'string' ? JSON.parse(value) : value),
   })
-  declare selectedServices: string[] | null
+  declare selectedServices: string | null
 
   // Column 2: Status, employer, annual income, portfolio size range
   @column({
     prepare: (value) => (value ? JSON.stringify(value) : null),
     consume: (value) => (typeof value === 'string' ? JSON.parse(value) : value),
   })
-  declare employmentDetails: Record<string, any> | null
+  declare employmentDetails: string | null
 
   // Column 3: Active investing duration & typical transaction sizes
   @column({
     prepare: (value) => (value ? JSON.stringify(value) : null),
     consume: (value) => (typeof value === 'string' ? JSON.parse(value) : value),
   })
-  declare investmentBackground: Record<string, any> | null
+  declare investmentBackground: string | null
+
+  @column()
+  declare structure: string | null
+
+  @column()
+  declare assetsUnderManagement: string | null
+
+  @column()
+  declare investingAs: string | null
+  
+  @column()
+  declare servicesSettlements: string | null
+
+  @column()
+  declare mandateProfiles: string | null
 
   @column()
   declare identityVerificationStatus: string | null
@@ -48,7 +63,7 @@ export default class UsersComplianceAssessment extends BaseModel {
     prepare: (value) => (value ? JSON.stringify(value) : null),
     consume: (value) => (typeof value === 'string' ? JSON.parse(value) : value),
   })
-  declare knowledgeAssessment: Record<string, any> | null
+  declare knowledgeAssessment: string| null
 
   // Column 5: Document path mappings for compliance proof (Optional)
   @column({

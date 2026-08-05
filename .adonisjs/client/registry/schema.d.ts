@@ -187,6 +187,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/compliance_controller').default['getSumSubToken']>>>
     }
   }
+  'compliance.get_step_three_status': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/account/compliance/sumsub_status'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/compliance_controller').default['getStepThreeStatus']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/compliance_controller').default['getStepThreeStatus']>>>
+    }
+  }
   'compliance.get_ka_question': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/account/compliance/knowledge_assessment'
@@ -199,7 +211,7 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/compliance_controller').default['getKAQuestion']>>>
     }
   }
-  'compliance.personal.step_one': {
+  'personal_compliance.submit_step_one': {
     methods: ["POST"]
     pattern: '/api/v1/account/compliance/personal/step_one'
     types: {
@@ -223,16 +235,52 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/personal_compliance_controller').default['submitStepTwo']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
-  'personal_compliance.show_step_three': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/account/compliance/personal/step_three'
+  'personal_compliance.submit_step_four': {
+    methods: ["POST"]
+    pattern: '/api/v1/account/compliance/personal/step_four'
     types: {
-      body: {}
+      body: ExtractBody<InferInput<(typeof import('#validators/compliance_validator').complianceStepFourValidator)>>
       paramsTuple: []
       params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/personal_compliance_controller').default['showStepThree']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/personal_compliance_controller').default['showStepThree']>>>
+      query: ExtractQuery<InferInput<(typeof import('#validators/compliance_validator').complianceStepFourValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/personal_compliance_controller').default['submitStepFour']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/personal_compliance_controller').default['submitStepFour']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'regulated_business_compliance.submit_step_one': {
+    methods: ["POST"]
+    pattern: '/api/v1/account/compliance/regulated_business/step_one'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/compliance_validator').complianceBusinessStepOneValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/compliance_validator').complianceBusinessStepOneValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/regulatedbusiness_compliance_controller').default['submitStepOne']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/regulatedbusiness_compliance_controller').default['submitStepOne']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'regulated_business_compliance.submit_step_two': {
+    methods: ["POST"]
+    pattern: '/api/v1/account/compliance/regulated_business/step_two'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/compliance_validator').complianceStepTwoBusinessValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/compliance_validator').complianceStepTwoBusinessValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/regulatedbusiness_compliance_controller').default['submitStepTwo']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/regulatedbusiness_compliance_controller').default['submitStepTwo']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'regulated_business_compliance.submit_step_four': {
+    methods: ["POST"]
+    pattern: '/api/v1/account/compliance/regulated_business/step_four'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/compliance_validator').complianceStepFourValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/compliance_validator').complianceStepFourValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/regulatedbusiness_compliance_controller').default['submitStepFour']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/regulatedbusiness_compliance_controller').default['submitStepFour']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
   'dashboard.dashboard': {
@@ -245,6 +293,42 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/dashboards_controller').default['dashboard']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/dashboards_controller').default['dashboard']>>>
+    }
+  }
+  'ibkr_connect.initiate_auth': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/account/ibkr/connect'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['initiateAuth']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['initiateAuth']>>>
+    }
+  }
+  'ibkr_connect.handle_callback': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/account/ibkr/callback'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['handleCallback']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['handleCallback']>>>
+    }
+  }
+  'ibkr_connect.link_flex_service': {
+    methods: ["POST"]
+    pattern: '/api/v1/account/ibkr/link-flex'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['linkFlexService']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['linkFlexService']>>>
     }
   }
 }

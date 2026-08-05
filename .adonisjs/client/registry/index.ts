@@ -96,17 +96,23 @@ const routes = {
     tokens: [{"old":"/api/v1/account/compliance/sumsub_token","type":0,"val":"api","end":""},{"old":"/api/v1/account/compliance/sumsub_token","type":0,"val":"v1","end":""},{"old":"/api/v1/account/compliance/sumsub_token","type":0,"val":"account","end":""},{"old":"/api/v1/account/compliance/sumsub_token","type":0,"val":"compliance","end":""},{"old":"/api/v1/account/compliance/sumsub_token","type":0,"val":"sumsub_token","end":""}],
     types: placeholder as Registry['compliance.get_sum_sub_token']['types'],
   },
+  'compliance.get_step_three_status': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/account/compliance/sumsub_status',
+    tokens: [{"old":"/api/v1/account/compliance/sumsub_status","type":0,"val":"api","end":""},{"old":"/api/v1/account/compliance/sumsub_status","type":0,"val":"v1","end":""},{"old":"/api/v1/account/compliance/sumsub_status","type":0,"val":"account","end":""},{"old":"/api/v1/account/compliance/sumsub_status","type":0,"val":"compliance","end":""},{"old":"/api/v1/account/compliance/sumsub_status","type":0,"val":"sumsub_status","end":""}],
+    types: placeholder as Registry['compliance.get_step_three_status']['types'],
+  },
   'compliance.get_ka_question': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/account/compliance/knowledge_assessment',
     tokens: [{"old":"/api/v1/account/compliance/knowledge_assessment","type":0,"val":"api","end":""},{"old":"/api/v1/account/compliance/knowledge_assessment","type":0,"val":"v1","end":""},{"old":"/api/v1/account/compliance/knowledge_assessment","type":0,"val":"account","end":""},{"old":"/api/v1/account/compliance/knowledge_assessment","type":0,"val":"compliance","end":""},{"old":"/api/v1/account/compliance/knowledge_assessment","type":0,"val":"knowledge_assessment","end":""}],
     types: placeholder as Registry['compliance.get_ka_question']['types'],
   },
-  'compliance.personal.step_one': {
+  'personal_compliance.submit_step_one': {
     methods: ["POST"],
     pattern: '/api/v1/account/compliance/personal/step_one',
     tokens: [{"old":"/api/v1/account/compliance/personal/step_one","type":0,"val":"api","end":""},{"old":"/api/v1/account/compliance/personal/step_one","type":0,"val":"v1","end":""},{"old":"/api/v1/account/compliance/personal/step_one","type":0,"val":"account","end":""},{"old":"/api/v1/account/compliance/personal/step_one","type":0,"val":"compliance","end":""},{"old":"/api/v1/account/compliance/personal/step_one","type":0,"val":"personal","end":""},{"old":"/api/v1/account/compliance/personal/step_one","type":0,"val":"step_one","end":""}],
-    types: placeholder as Registry['compliance.personal.step_one']['types'],
+    types: placeholder as Registry['personal_compliance.submit_step_one']['types'],
   },
   'personal_compliance.submit_step_two': {
     methods: ["POST"],
@@ -114,17 +120,53 @@ const routes = {
     tokens: [{"old":"/api/v1/account/compliance/personal/step_two","type":0,"val":"api","end":""},{"old":"/api/v1/account/compliance/personal/step_two","type":0,"val":"v1","end":""},{"old":"/api/v1/account/compliance/personal/step_two","type":0,"val":"account","end":""},{"old":"/api/v1/account/compliance/personal/step_two","type":0,"val":"compliance","end":""},{"old":"/api/v1/account/compliance/personal/step_two","type":0,"val":"personal","end":""},{"old":"/api/v1/account/compliance/personal/step_two","type":0,"val":"step_two","end":""}],
     types: placeholder as Registry['personal_compliance.submit_step_two']['types'],
   },
-  'personal_compliance.show_step_three': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/account/compliance/personal/step_three',
-    tokens: [{"old":"/api/v1/account/compliance/personal/step_three","type":0,"val":"api","end":""},{"old":"/api/v1/account/compliance/personal/step_three","type":0,"val":"v1","end":""},{"old":"/api/v1/account/compliance/personal/step_three","type":0,"val":"account","end":""},{"old":"/api/v1/account/compliance/personal/step_three","type":0,"val":"compliance","end":""},{"old":"/api/v1/account/compliance/personal/step_three","type":0,"val":"personal","end":""},{"old":"/api/v1/account/compliance/personal/step_three","type":0,"val":"step_three","end":""}],
-    types: placeholder as Registry['personal_compliance.show_step_three']['types'],
+  'personal_compliance.submit_step_four': {
+    methods: ["POST"],
+    pattern: '/api/v1/account/compliance/personal/step_four',
+    tokens: [{"old":"/api/v1/account/compliance/personal/step_four","type":0,"val":"api","end":""},{"old":"/api/v1/account/compliance/personal/step_four","type":0,"val":"v1","end":""},{"old":"/api/v1/account/compliance/personal/step_four","type":0,"val":"account","end":""},{"old":"/api/v1/account/compliance/personal/step_four","type":0,"val":"compliance","end":""},{"old":"/api/v1/account/compliance/personal/step_four","type":0,"val":"personal","end":""},{"old":"/api/v1/account/compliance/personal/step_four","type":0,"val":"step_four","end":""}],
+    types: placeholder as Registry['personal_compliance.submit_step_four']['types'],
+  },
+  'regulated_business_compliance.submit_step_one': {
+    methods: ["POST"],
+    pattern: '/api/v1/account/compliance/regulated_business/step_one',
+    tokens: [{"old":"/api/v1/account/compliance/regulated_business/step_one","type":0,"val":"api","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_one","type":0,"val":"v1","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_one","type":0,"val":"account","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_one","type":0,"val":"compliance","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_one","type":0,"val":"regulated_business","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_one","type":0,"val":"step_one","end":""}],
+    types: placeholder as Registry['regulated_business_compliance.submit_step_one']['types'],
+  },
+  'regulated_business_compliance.submit_step_two': {
+    methods: ["POST"],
+    pattern: '/api/v1/account/compliance/regulated_business/step_two',
+    tokens: [{"old":"/api/v1/account/compliance/regulated_business/step_two","type":0,"val":"api","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_two","type":0,"val":"v1","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_two","type":0,"val":"account","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_two","type":0,"val":"compliance","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_two","type":0,"val":"regulated_business","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_two","type":0,"val":"step_two","end":""}],
+    types: placeholder as Registry['regulated_business_compliance.submit_step_two']['types'],
+  },
+  'regulated_business_compliance.submit_step_four': {
+    methods: ["POST"],
+    pattern: '/api/v1/account/compliance/regulated_business/step_four',
+    tokens: [{"old":"/api/v1/account/compliance/regulated_business/step_four","type":0,"val":"api","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_four","type":0,"val":"v1","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_four","type":0,"val":"account","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_four","type":0,"val":"compliance","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_four","type":0,"val":"regulated_business","end":""},{"old":"/api/v1/account/compliance/regulated_business/step_four","type":0,"val":"step_four","end":""}],
+    types: placeholder as Registry['regulated_business_compliance.submit_step_four']['types'],
   },
   'dashboard.dashboard': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/account/dashboard',
     tokens: [{"old":"/api/v1/account/dashboard","type":0,"val":"api","end":""},{"old":"/api/v1/account/dashboard","type":0,"val":"v1","end":""},{"old":"/api/v1/account/dashboard","type":0,"val":"account","end":""},{"old":"/api/v1/account/dashboard","type":0,"val":"dashboard","end":""}],
     types: placeholder as Registry['dashboard.dashboard']['types'],
+  },
+  'ibkr_connect.initiate_auth': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/account/ibkr/connect',
+    tokens: [{"old":"/api/v1/account/ibkr/connect","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/connect","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/connect","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/connect","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/connect","type":0,"val":"connect","end":""}],
+    types: placeholder as Registry['ibkr_connect.initiate_auth']['types'],
+  },
+  'ibkr_connect.handle_callback': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/account/ibkr/callback',
+    tokens: [{"old":"/api/v1/account/ibkr/callback","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/callback","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/callback","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/callback","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/callback","type":0,"val":"callback","end":""}],
+    types: placeholder as Registry['ibkr_connect.handle_callback']['types'],
+  },
+  'ibkr_connect.link_flex_service': {
+    methods: ["POST"],
+    pattern: '/api/v1/account/ibkr/link-flex',
+    tokens: [{"old":"/api/v1/account/ibkr/link-flex","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/link-flex","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/link-flex","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/link-flex","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/link-flex","type":0,"val":"link-flex","end":""}],
+    types: placeholder as Registry['ibkr_connect.link_flex_service']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

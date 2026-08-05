@@ -100,7 +100,7 @@ export default class AccessTokensController {
       // Reset 2FA failures specifically so they start with 5 fresh attempts
       user.otpTokenAttempts = 0
       await user.save()
-
+      
       return response.ok({
         requiresTwoFactor: true,
         message: 'Two-factor authentication code required to complete login.',

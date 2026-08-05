@@ -19,8 +19,7 @@ export const complianceStepOneValidator = vine.compile(
 
 /**
  * Step 2: Individual Compliance Assessment Validator
- * Matches the newly restructured table columns & request payload
- */
+*/
 export const complianceStepTwoIndividualValidator = vine.compile(
   vine.object({
     // Column 1: Array of chosen services
@@ -62,14 +61,58 @@ export const complianceStepTwoIndividualValidator = vine.compile(
   })
 )
 
+export const complianceStepFourValidator = vine.compile(
+  vine.object({
+    // Screen 1: Services
+    servicesAndSettlements: vine.array(vine.string()).minLength(1),
+
+    // Screen 2: Mandate Profile
+    mandateProfile: vine.object({
+      investmentObjective: vine.string().trim(),
+      investmentHorizon: vine.string().trim(),
+    }),
+
+    // Screen 3: Settlement Account Details
+    settlementAccount: vine.object({
+      accountName: vine.string().trim(),
+      bankName: vine.string().trim(),
+      bankBranch: vine.string().trim().optional(),
+      sortCodeSwiftBic: vine.string().trim(),
+      accountNumberIban: vine.string().trim(),
+      accountCurrency: vine.string().trim().maxLength(10),
+    }),
+  })
+)
+
 /**
- * Step 2: Corporate/Business Compliance Validator
+ * Step 1: Basic Identity & Business Info Validator
  */
+export const complianceBusinessStepOneValidator = vine.compile(
+  vine.object({
+    business_category: vine.string().trim().minLength(2).maxLength(50),
+    business_nature: vine.string().trim().minLength(2).maxLength(50),
+  })
+)
+
 export const complianceStepTwoBusinessValidator = vine.compile(
   vine.object({
-    companyName: vine.string().trim(),
-    registrationNumber: vine.string().trim(),
-    annualTurnover: vine.string().trim(),
-    certificateOfIncorporation: vine.file({ size: '25mb', extnames: ['pdf'] }),
+    selectedServices: vine.array(vine.string()).minLength(1),
+    beneficial_owners: vine.array(
+      vine.object({
+        name: vine.string().trim().minLength(2),
+        date_of_birth: vine.string().trim(),
+        basis_of_control: vine.string().trim(),
+      })
+    ).minLength(1),
+    structure: vine.enum(['Single-Family', 'Multi-Family']),
+    assets_under_management: vine.string().trim(),
+    investing_as: vine.enum(['Principal', 'Agent']),
+    
+    // File upload inputs (optional files max 10MB each)
+    ceritifcate_of_incomporation: vine.file({ size: '10mb', extnames: ['pdf', 'png', 'jpg', 'jpeg'] }).optional(),
+    certified_ownership_structure: vine.file({ size: '10mb', extnames: ['pdf', 'png', 'jpg', 'jpeg'] }).optional(),
+    board_resolution: vine.file({ size: '10mb', extnames: ['pdf', 'png', 'jpg', 'jpeg'] }).optional(),
+    proof_of_address: vine.file({ size: '10mb', extnames: ['pdf', 'png', 'jpg', 'jpeg'] }).optional(),
+    financial_statement: vine.file({ size: '10mb', extnames: ['pdf', 'png', 'jpg', 'jpeg'] }).optional(),
   })
 )

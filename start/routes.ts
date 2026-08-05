@@ -14,6 +14,8 @@ const VerifyEmailController = () => import('#controllers/verify_emails_controlle
 const MfaController = () => import('#controllers/mfas_controller')
 const DashboardController = () => import('#controllers/dashboards_controller')
 const PersonalComplianceController = () => import('#controllers/personal_compliance_controller')
+const RegulatedBusinessComplianceController = () => import('#controllers/regulatedbusiness_compliance_controller')
+const IbkrConnectController = () => import('#controllers/ibkr_connect_controller')
 const ComplianceController = () => import('#controllers/compliance_controller')
 const SumsubWebhookController = () => import('#controllers/sumsub_webhook_controller')
 
@@ -81,15 +83,35 @@ router
         router.group(() => {
           //Compliance Dependencies
           router.get('compliance/sumsub_token', [ComplianceController, 'getSumSubToken'])
+          router.get('compliance/sumsub_status', [ComplianceController, 'getStepThreeStatus'])
           router.get('compliance/knowledge_assessment', [ComplianceController, 'getKAQuestion'])
 
           // Personal Compliance Steps
-          router.post('compliance/personal/step_one', [PersonalComplianceController, 'submitStepOne']).as('compliance.personal.step_one')
-          router.post('compliance/personal/step_two', [PersonalComplianceController, 'submitStepTwo'])
-          router.get('compliance/personal/step_three', [PersonalComplianceController, 'showStepThree'])
+          router.post('compliance/personal/step_one', [PersonalComplianceController, 'submitStepOne']).use(middleware.individual()) 
+          router.post('compliance/personal/step_two', [PersonalComplianceController, 'submitStepTwo']).use(middleware.individual()) 
+          router.post('compliance/personal/step_four', [PersonalComplianceController, 'submitStepFour']).use(middleware.individual()) 
+
+          // Regulated Business Compliance Steps
+          router.post('compliance/regulated_business/step_one', [RegulatedBusinessComplianceController, 'submitStepOne'])
+            .use([middleware.business(), middleware.regulatedbusiness()])
+
+          router.post('compliance/regulated_business/step_two', [RegulatedBusinessComplianceController, 'submitStepTwo'])
+            .use([middleware.business(), middleware.regulatedbusiness()])
+
+          router.post('compliance/regulated_business/step_four', [RegulatedBusinessComplianceController, 'submitStepFour'])
+            .use([middleware.business(), middleware.regulatedbusiness()])
 
           // Dashboard
           router.get('dashboard', [DashboardController, 'dashboard'])
+
+          //IBKR Functions
+          // OAuth Routes
+          router.get('ibkr/connect', [IbkrConnectController, 'initiateAuth'])
+          router.get('ibkr/callback', [IbkrConnectController, 'handleCallback'])
+          // Flex Web Service Manual Linking Route
+          router.post('ibkr/link-flex', [IbkrConnectController, 'linkFlexService'])
+
+
         }).use(middleware.mfa()) // Enforces 2FA only on these specific endpoints
 
       })

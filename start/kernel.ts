@@ -47,4 +47,8 @@ router.use([
 export const middleware = router.named({
   auth: () => import('#middleware/auth_middleware'),
   mfa: () => import('#middleware/mfa_middleware'),
+  individual: () => import('#middleware/individual_middleware'),
+  business: () => import('#middleware/business_middleware'),
+  regulatedbusiness: () => import('#middleware/regulated_business_middleware'),
+  unregulatedbusiness: () => import('#middleware/unregulated_business_middleware'),
 })

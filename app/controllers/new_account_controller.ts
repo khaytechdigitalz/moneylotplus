@@ -58,6 +58,7 @@ export default class NewAccountsController {
         
       } else if (payload.accountType === 'business') {
         await user.related('businessProfile').create({
+          businessRegulation: payload.fcaNumber ? 'regulated' : 'unregulated',
           representativeFullName: payload.representativeFullName!,
           businessName: fetchedCompanyName || payload.businessName!,
           countryOfOperations: payload.countryOfOperations!,

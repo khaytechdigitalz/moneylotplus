@@ -2,6 +2,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import { SumsubService } from '#services/sumsub_service'
 import { knowledgeAssessmentService } from '#services/knowledge_assessment_service'
+import logger from '@adonisjs/core/services/logger'
 import env from '#start/env'
 
 export default class ComplianceController {
@@ -95,12 +96,12 @@ export default class ComplianceController {
   }
 
   /**
-   * Renders the Step 3 Identity Verification (Sumsub WebSDK) page
+   * Get current compliance verification status for logged-in user
    */
-  async showStepThree({ auth, view }: HttpContext) {
+  public async getStepThreeStatus({ auth, response }: HttpContext) {
     const user = auth.user!
 
-    // 1. Fetch current profile based on account type
+    // 1. Fetch user profile based on account type
     let profile: any = null
 
     if (user.accountType === 'individual') {
@@ -110,26 +111,53 @@ export default class ComplianceController {
     }
 
     if (!profile) {
-     // return response.redirect().toRoute('compliance.personal.step_one')
+      return response.badRequest({ message: 'Profile not found' })
     }
 
-    // Optional Guard: If user has already completed step_3 or beyond, redirect to step 4
-    if (profile.complianceStep === 'step_4' || profile.complianceStep === 'completed') {
-    //  return response.redirect().toRoute('compliance.step4')
+    // 2. Check local DB first for fast response if already at step_4
+    if (profile.complianceStep === 'step_4') {
+      return response.ok({
+        status: 'completed',
+        isVerified: true,
+      })
     }
 
-    // 2. Render step_3.edge view with user payload
-    return view.render('compliance/step_3', {
-      user: {
-        id: user.id,
-        email: user.email,
-        accountType: user.accountType,
-      },
-      profile: {
-        complianceStep: profile.complianceStep,
-        kycStatus: profile.kycStatus,
-      },
-    })
+    // 3. Query Sumsub directly for real-time status
+    const statusData = await SumsubService.getApplicantStatus(user.id)
+
+    // 4. Update local DB records based on real-time Sumsub response
+    if (statusData.isApproved) {
+      logger.info(`KYC Approved for User ID ${user.id} (${user.accountType})`)
+
+      // Advance user profile to step_4
+      profile.complianceStep = 'step_4'
+      await profile.save()
+
+      // Update Compliance Assessment table
+      const complianceAssessment = await user.related('complianceAssessment').query().first()
+      if (complianceAssessment) {
+        complianceAssessment.identityVerificationId = statusData.applicantId
+        complianceAssessment.identityVerificationStatus = 'approved'
+        complianceAssessment.identityVerificationData = JSON.stringify(statusData)
+        await complianceAssessment.save()
+      }
+    } else if (statusData.isRejected) {
+      logger.warn(
+        `KYC Rejected for User ID ${user.id} (${user.accountType}). Reject Labels: ${statusData.rejectLabels?.join(', ')}`
+      )
+
+      // Update Compliance Assessment table
+      const complianceAssessment = await user.related('complianceAssessment').query().first()
+      if (complianceAssessment) {
+        complianceAssessment.identityVerificationId = statusData.applicantId
+        complianceAssessment.identityVerificationStatus = 'rejected'
+        complianceAssessment.identityVerificationData = JSON.stringify(statusData)
+        await complianceAssessment.save()
+      }
+    }
+
+    // 5. Return status object back to frontend
+    return response.ok(statusData)
   }
   
 }

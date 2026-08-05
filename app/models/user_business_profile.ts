@@ -12,6 +12,18 @@ export default class UserBusinessProfile extends BaseModel {
   declare id: number
 
   @column()
+  declare complianceStep: string
+
+  @column()
+ declare businessCategory: string
+ 
+  @column()
+ declare businessNature: string
+
+  @column()
+ declare businessRegulation: string
+
+  @column()
   declare userId: number
 
   @column()

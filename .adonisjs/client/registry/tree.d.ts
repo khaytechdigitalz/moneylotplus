@@ -32,16 +32,25 @@ export interface ApiDefinition {
   }
   compliance: {
     getSumSubToken: typeof routes['compliance.get_sum_sub_token']
+    getStepThreeStatus: typeof routes['compliance.get_step_three_status']
     getKaQuestion: typeof routes['compliance.get_ka_question']
-    personal: {
-      stepOne: typeof routes['compliance.personal.step_one']
-    }
   }
   personalCompliance: {
+    submitStepOne: typeof routes['personal_compliance.submit_step_one']
     submitStepTwo: typeof routes['personal_compliance.submit_step_two']
-    showStepThree: typeof routes['personal_compliance.show_step_three']
+    submitStepFour: typeof routes['personal_compliance.submit_step_four']
+  }
+  regulatedBusinessCompliance: {
+    submitStepOne: typeof routes['regulated_business_compliance.submit_step_one']
+    submitStepTwo: typeof routes['regulated_business_compliance.submit_step_two']
+    submitStepFour: typeof routes['regulated_business_compliance.submit_step_four']
   }
   dashboard: {
     dashboard: typeof routes['dashboard.dashboard']
+  }
+  ibkrConnect: {
+    initiateAuth: typeof routes['ibkr_connect.initiate_auth']
+    handleCallback: typeof routes['ibkr_connect.handle_callback']
+    linkFlexService: typeof routes['ibkr_connect.link_flex_service']
   }
 }

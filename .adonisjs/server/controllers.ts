@@ -8,10 +8,12 @@ export const controllers = {
   Compliance: () => import('#controllers/compliance_controller'),
   Dashboards: () => import('#controllers/dashboards_controller'),
   ForgotPasswords: () => import('#controllers/forgot_passwords_controller'),
+  IbkrConnect: () => import('#controllers/ibkr_connect_controller'),
   Mfas: () => import('#controllers/mfas_controller'),
   NewAccount: () => import('#controllers/new_account_controller'),
   PersonalCompliance: () => import('#controllers/personal_compliance_controller'),
   Profile: () => import('#controllers/profile_controller'),
+  RegulatedbusinessCompliance: () => import('#controllers/regulatedbusiness_compliance_controller'),
   SumsubWebhook: () => import('#controllers/sumsub_webhook_controller'),
   VerifyEmails: () => import('#controllers/verify_emails_controller'),
 }

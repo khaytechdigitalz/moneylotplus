@@ -19,25 +19,36 @@ export type ScannedRoutes = {
     'mfa.verify_and_enable': { paramsTuple?: []; params?: {} }
     'access_tokens.destroy': { paramsTuple?: []; params?: {} }
     'compliance.get_sum_sub_token': { paramsTuple?: []; params?: {} }
+    'compliance.get_step_three_status': { paramsTuple?: []; params?: {} }
     'compliance.get_ka_question': { paramsTuple?: []; params?: {} }
-    'compliance.personal.step_one': { paramsTuple?: []; params?: {} }
+    'personal_compliance.submit_step_one': { paramsTuple?: []; params?: {} }
     'personal_compliance.submit_step_two': { paramsTuple?: []; params?: {} }
-    'personal_compliance.show_step_three': { paramsTuple?: []; params?: {} }
+    'personal_compliance.submit_step_four': { paramsTuple?: []; params?: {} }
+    'regulated_business_compliance.submit_step_one': { paramsTuple?: []; params?: {} }
+    'regulated_business_compliance.submit_step_two': { paramsTuple?: []; params?: {} }
+    'regulated_business_compliance.submit_step_four': { paramsTuple?: []; params?: {} }
     'dashboard.dashboard': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.initiate_auth': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.handle_callback': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.link_flex_service': { paramsTuple?: []; params?: {} }
   }
   GET: {
     'auth.verify_email': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'compliance.get_sum_sub_token': { paramsTuple?: []; params?: {} }
+    'compliance.get_step_three_status': { paramsTuple?: []; params?: {} }
     'compliance.get_ka_question': { paramsTuple?: []; params?: {} }
-    'personal_compliance.show_step_three': { paramsTuple?: []; params?: {} }
     'dashboard.dashboard': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.initiate_auth': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.handle_callback': { paramsTuple?: []; params?: {} }
   }
   HEAD: {
     'auth.verify_email': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'compliance.get_sum_sub_token': { paramsTuple?: []; params?: {} }
+    'compliance.get_step_three_status': { paramsTuple?: []; params?: {} }
     'compliance.get_ka_question': { paramsTuple?: []; params?: {} }
-    'personal_compliance.show_step_three': { paramsTuple?: []; params?: {} }
     'dashboard.dashboard': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.initiate_auth': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.handle_callback': { paramsTuple?: []; params?: {} }
   }
   POST: {
     'sumsub_webhook.handle_webhook': { paramsTuple?: []; params?: {} }
@@ -53,8 +64,13 @@ export type ScannedRoutes = {
     'mfa.setup': { paramsTuple?: []; params?: {} }
     'mfa.verify_and_enable': { paramsTuple?: []; params?: {} }
     'access_tokens.destroy': { paramsTuple?: []; params?: {} }
-    'compliance.personal.step_one': { paramsTuple?: []; params?: {} }
+    'personal_compliance.submit_step_one': { paramsTuple?: []; params?: {} }
     'personal_compliance.submit_step_two': { paramsTuple?: []; params?: {} }
+    'personal_compliance.submit_step_four': { paramsTuple?: []; params?: {} }
+    'regulated_business_compliance.submit_step_one': { paramsTuple?: []; params?: {} }
+    'regulated_business_compliance.submit_step_two': { paramsTuple?: []; params?: {} }
+    'regulated_business_compliance.submit_step_four': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.link_flex_service': { paramsTuple?: []; params?: {} }
   }
 }
 declare module '@adonisjs/core/types/http' {
