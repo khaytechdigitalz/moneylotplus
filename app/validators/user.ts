@@ -70,3 +70,16 @@ export const loginValidator = vine.compile(
     password: vine.string(),
   })
 )
+
+export const resendEmailOtpValidator = vine.compile(
+  vine.object({
+    email: vine.string().email().trim().toLowerCase(),
+  })
+)
+
+export const changeEmailValidator = vine.compile(
+  vine.object({
+    currentEmail: vine.string().email().trim().toLowerCase(),
+    newEmail: vine.string().email().trim().toLowerCase(),
+  })
+)

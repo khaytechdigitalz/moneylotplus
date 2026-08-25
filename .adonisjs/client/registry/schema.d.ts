@@ -31,6 +31,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['signup']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'auth.new_account.resend_email_otp': {
+    methods: ["POST"]
+    pattern: '/api/v1/auth/resend/register-otp'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user').resendEmailOtpValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user').resendEmailOtpValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['resendEmailOtp']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['resendEmailOtp']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'auth.new_account.change_email': {
+    methods: ["POST"]
+    pattern: '/api/v1/auth/change/register-email'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/user').changeEmailValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/user').changeEmailValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['changeEmail']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['changeEmail']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'auth.new_account.housenumber': {
     methods: ["POST"]
     pattern: '/api/v1/auth/validate-housenumber'
@@ -53,6 +77,18 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['firmreference']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['firmreference']>>>
+    }
+  }
+  'auth.new_account.companyidverify': {
+    methods: ["POST"]
+    pattern: '/api/v1/auth/validate-companyid'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['companyidverify']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['companyidverify']>>>
     }
   }
   'auth.access_tokens.store': {

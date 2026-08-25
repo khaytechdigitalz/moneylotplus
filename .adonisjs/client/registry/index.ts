@@ -18,6 +18,18 @@ const routes = {
     tokens: [{"old":"/api/v1/auth/signup","type":0,"val":"api","end":""},{"old":"/api/v1/auth/signup","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/signup","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/signup","type":0,"val":"signup","end":""}],
     types: placeholder as Registry['auth.new_account.signup']['types'],
   },
+  'auth.new_account.resend_email_otp': {
+    methods: ["POST"],
+    pattern: '/api/v1/auth/resend/register-otp',
+    tokens: [{"old":"/api/v1/auth/resend/register-otp","type":0,"val":"api","end":""},{"old":"/api/v1/auth/resend/register-otp","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/resend/register-otp","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/resend/register-otp","type":0,"val":"resend","end":""},{"old":"/api/v1/auth/resend/register-otp","type":0,"val":"register-otp","end":""}],
+    types: placeholder as Registry['auth.new_account.resend_email_otp']['types'],
+  },
+  'auth.new_account.change_email': {
+    methods: ["POST"],
+    pattern: '/api/v1/auth/change/register-email',
+    tokens: [{"old":"/api/v1/auth/change/register-email","type":0,"val":"api","end":""},{"old":"/api/v1/auth/change/register-email","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/change/register-email","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/change/register-email","type":0,"val":"change","end":""},{"old":"/api/v1/auth/change/register-email","type":0,"val":"register-email","end":""}],
+    types: placeholder as Registry['auth.new_account.change_email']['types'],
+  },
   'auth.new_account.housenumber': {
     methods: ["POST"],
     pattern: '/api/v1/auth/validate-housenumber',
@@ -29,6 +41,12 @@ const routes = {
     pattern: '/api/v1/auth/validate-firmreference',
     tokens: [{"old":"/api/v1/auth/validate-firmreference","type":0,"val":"api","end":""},{"old":"/api/v1/auth/validate-firmreference","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/validate-firmreference","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/validate-firmreference","type":0,"val":"validate-firmreference","end":""}],
     types: placeholder as Registry['auth.new_account.firmreference']['types'],
+  },
+  'auth.new_account.companyidverify': {
+    methods: ["POST"],
+    pattern: '/api/v1/auth/validate-companyid',
+    tokens: [{"old":"/api/v1/auth/validate-companyid","type":0,"val":"api","end":""},{"old":"/api/v1/auth/validate-companyid","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/validate-companyid","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/validate-companyid","type":0,"val":"validate-companyid","end":""}],
+    types: placeholder as Registry['auth.new_account.companyidverify']['types'],
   },
   'auth.access_tokens.store': {
     methods: ["POST"],

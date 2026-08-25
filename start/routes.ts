@@ -37,9 +37,16 @@ router
       .group(() => {
         router.post('signup', [controllers.NewAccount, 'signup'])
 
+        //RESEND EMAIL OTP
+        router.post('resend/register-otp', [controllers.NewAccount, 'resendEmailOtp'])
+
+        //CHANGE EMAIL
+        router.post('change/register-email', [controllers.NewAccount, 'changeEmail'])
+
         // VALIDATE BUSINESS NUMMBER
         router.post('validate-housenumber', [controllers.NewAccount, 'housenumber'])
         router.post('validate-firmreference', [controllers.NewAccount, 'firmreference'])
+        router.post('validate-companyid', [controllers.NewAccount, 'companyidverify'])
 
         router.post('login', [controllers.AccessTokens, 'store'])
         router.post('login/verify-2fa', [controllers.AccessTokens, 'verifyTwoFactor'])

@@ -6,8 +6,11 @@ export type ScannedRoutes = {
   ALL: {
     'sumsub_webhook.handle_webhook': { paramsTuple?: []; params?: {} }
     'auth.new_account.signup': { paramsTuple?: []; params?: {} }
+    'auth.new_account.resend_email_otp': { paramsTuple?: []; params?: {} }
+    'auth.new_account.change_email': { paramsTuple?: []; params?: {} }
     'auth.new_account.housenumber': { paramsTuple?: []; params?: {} }
     'auth.new_account.firmreference': { paramsTuple?: []; params?: {} }
+    'auth.new_account.companyidverify': { paramsTuple?: []; params?: {} }
     'auth.access_tokens.store': { paramsTuple?: []; params?: {} }
     'auth.access_tokens.verify_two_factor': { paramsTuple?: []; params?: {} }
     'auth.forgot_passwords.send_otp': { paramsTuple?: []; params?: {} }
@@ -53,8 +56,11 @@ export type ScannedRoutes = {
   POST: {
     'sumsub_webhook.handle_webhook': { paramsTuple?: []; params?: {} }
     'auth.new_account.signup': { paramsTuple?: []; params?: {} }
+    'auth.new_account.resend_email_otp': { paramsTuple?: []; params?: {} }
+    'auth.new_account.change_email': { paramsTuple?: []; params?: {} }
     'auth.new_account.housenumber': { paramsTuple?: []; params?: {} }
     'auth.new_account.firmreference': { paramsTuple?: []; params?: {} }
+    'auth.new_account.companyidverify': { paramsTuple?: []; params?: {} }
     'auth.access_tokens.store': { paramsTuple?: []; params?: {} }
     'auth.access_tokens.verify_two_factor': { paramsTuple?: []; params?: {} }
     'auth.forgot_passwords.send_otp': { paramsTuple?: []; params?: {} }
