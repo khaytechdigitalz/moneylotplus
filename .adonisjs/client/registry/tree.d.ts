@@ -12,7 +12,6 @@ export interface ApiDefinition {
       changeEmail: typeof routes['auth.new_account.change_email']
       housenumber: typeof routes['auth.new_account.housenumber']
       firmreference: typeof routes['auth.new_account.firmreference']
-      companyidverify: typeof routes['auth.new_account.companyidverify']
     }
     accessTokens: {
       store: typeof routes['auth.access_tokens.store']

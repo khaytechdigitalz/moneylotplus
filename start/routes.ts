@@ -46,7 +46,6 @@ router
         // VALIDATE BUSINESS NUMMBER
         router.post('validate-housenumber', [controllers.NewAccount, 'housenumber'])
         router.post('validate-firmreference', [controllers.NewAccount, 'firmreference'])
-        router.post('validate-companyid', [controllers.NewAccount, 'companyidverify'])
 
         router.post('login', [controllers.AccessTokens, 'store'])
         router.post('login/verify-2fa', [controllers.AccessTokens, 'verifyTwoFactor'])

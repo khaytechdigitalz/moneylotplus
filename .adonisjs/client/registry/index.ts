@@ -42,12 +42,6 @@ const routes = {
     tokens: [{"old":"/api/v1/auth/validate-firmreference","type":0,"val":"api","end":""},{"old":"/api/v1/auth/validate-firmreference","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/validate-firmreference","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/validate-firmreference","type":0,"val":"validate-firmreference","end":""}],
     types: placeholder as Registry['auth.new_account.firmreference']['types'],
   },
-  'auth.new_account.companyidverify': {
-    methods: ["POST"],
-    pattern: '/api/v1/auth/validate-companyid',
-    tokens: [{"old":"/api/v1/auth/validate-companyid","type":0,"val":"api","end":""},{"old":"/api/v1/auth/validate-companyid","type":0,"val":"v1","end":""},{"old":"/api/v1/auth/validate-companyid","type":0,"val":"auth","end":""},{"old":"/api/v1/auth/validate-companyid","type":0,"val":"validate-companyid","end":""}],
-    types: placeholder as Registry['auth.new_account.companyidverify']['types'],
-  },
   'auth.access_tokens.store': {
     methods: ["POST"],
     pattern: '/api/v1/auth/login',

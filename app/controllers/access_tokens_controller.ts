@@ -56,7 +56,11 @@ export default class AccessTokensController {
         await user.save()
 
         return response.forbidden({
-          errors: [{ message: 'This account has been blocked due to multiple failed login attempts. Please contact support.' }]
+          errors: [{ 
+          total_attemps: user.otpTokenAttempts,
+          max_login_attempt: MAX_LOGIN_ATTEMPTS,
+          message: 'This account has been blocked due to multiple failed login attempts. Please contact support.'
+         }]
         })
       }
 
@@ -67,6 +71,9 @@ export default class AccessTokensController {
 
       return response.badRequest({
         errors: [{
+          remaining_trial: remainingTrials,
+          total_attemps: user.otpTokenAttempts,
+          max_login_attempt: MAX_LOGIN_ATTEMPTS,
           message: `Invalid credentials. You have ${remainingTrials} ${remainingTrials === 1 ? 'attempt' : 'attempts'} remaining before your account is blocked.`
         }]
       })

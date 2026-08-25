@@ -79,18 +79,6 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['firmreference']>>>
     }
   }
-  'auth.new_account.companyidverify': {
-    methods: ["POST"]
-    pattern: '/api/v1/auth/validate-companyid'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['companyidverify']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/new_account_controller').default['companyidverify']>>>
-    }
-  }
   'auth.access_tokens.store': {
     methods: ["POST"]
     pattern: '/api/v1/auth/login'

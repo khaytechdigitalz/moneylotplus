@@ -7,7 +7,7 @@ import router from '@adonisjs/core/services/router'
 import mail from '@adonisjs/mail/services/main'
 import User from '#models/user'
 import { signupValidator,resendEmailOtpValidator,changeEmailValidator } from '#validators/user'
-import { validateCompanyHouseNumber,validateCompanyReferenceNumber,validateCompanyIdNumber } from '#services/company_validation_service'
+import { validateCompanyHouseNumber,validateCompanyReferenceNumber } from '#services/company_validation_service'
 
 
 export default class NewAccountsController {
@@ -316,25 +316,6 @@ export default class NewAccountsController {
     })
   }
 
-  async companyidverify({ request, response }: HttpContext) {
-    const { companyid } = request.only(['companyid'])
-
-    if (!companyid) {
-      return response.badRequest({ message: 'Comapany ID number is required' })
-    }
-
-    const result = await validateCompanyIdNumber(companyid)
-
-    if (!result.isValid) {
-      return response.badRequest({ message: result.message })
-    }
-
-    return response.ok({
-      message: result.message ,
-      //status: result.?status ,
-      //name: result.name,
-      data: result.company,
-    })
-  }
+  
 
 }
