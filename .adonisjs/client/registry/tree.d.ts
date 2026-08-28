@@ -41,6 +41,7 @@ export interface ApiDefinition {
     submitStepOne: typeof routes['personal_compliance.submit_step_one']
     submitStepTwo: typeof routes['personal_compliance.submit_step_two']
     submitStepFour: typeof routes['personal_compliance.submit_step_four']
+    submitStepAcknowledgement: typeof routes['personal_compliance.submit_step_acknowledgement']
   }
   regulatedBusinessCompliance: {
     submitStepOne: typeof routes['regulated_business_compliance.submit_step_one']

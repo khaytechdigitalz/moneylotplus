@@ -96,6 +96,7 @@ router
           router.post('compliance/personal/step_one', [PersonalComplianceController, 'submitStepOne']).use(middleware.individual()) 
           router.post('compliance/personal/step_two', [PersonalComplianceController, 'submitStepTwo']).use(middleware.individual()) 
           router.post('compliance/personal/step_four', [PersonalComplianceController, 'submitStepFour']).use(middleware.individual()) 
+          router.post('compliance/personal/acknowledgement', [PersonalComplianceController, 'submitStepAcknowledgement']).use(middleware.individual()) 
 
           // Regulated Business Compliance Steps
           router.post('compliance/regulated_business/step_one', [RegulatedBusinessComplianceController, 'submitStepOne'])

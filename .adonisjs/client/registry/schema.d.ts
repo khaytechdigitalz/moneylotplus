@@ -271,6 +271,18 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/personal_compliance_controller').default['submitStepFour']>>> | { status: 422; response: { errors: SimpleError[] } }
     }
   }
+  'personal_compliance.submit_step_acknowledgement': {
+    methods: ["POST"]
+    pattern: '/api/v1/account/compliance/personal/acknowledgement'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/personal_compliance_controller').default['submitStepAcknowledgement']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/personal_compliance_controller').default['submitStepAcknowledgement']>>>
+    }
+  }
   'regulated_business_compliance.submit_step_one': {
     methods: ["POST"]
     pattern: '/api/v1/account/compliance/regulated_business/step_one'

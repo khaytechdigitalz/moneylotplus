@@ -26,6 +26,7 @@ export type ScannedRoutes = {
     'personal_compliance.submit_step_one': { paramsTuple?: []; params?: {} }
     'personal_compliance.submit_step_two': { paramsTuple?: []; params?: {} }
     'personal_compliance.submit_step_four': { paramsTuple?: []; params?: {} }
+    'personal_compliance.submit_step_acknowledgement': { paramsTuple?: []; params?: {} }
     'regulated_business_compliance.submit_step_one': { paramsTuple?: []; params?: {} }
     'regulated_business_compliance.submit_step_two': { paramsTuple?: []; params?: {} }
     'regulated_business_compliance.submit_step_four': { paramsTuple?: []; params?: {} }
@@ -71,6 +72,7 @@ export type ScannedRoutes = {
     'personal_compliance.submit_step_one': { paramsTuple?: []; params?: {} }
     'personal_compliance.submit_step_two': { paramsTuple?: []; params?: {} }
     'personal_compliance.submit_step_four': { paramsTuple?: []; params?: {} }
+    'personal_compliance.submit_step_acknowledgement': { paramsTuple?: []; params?: {} }
     'regulated_business_compliance.submit_step_one': { paramsTuple?: []; params?: {} }
     'regulated_business_compliance.submit_step_two': { paramsTuple?: []; params?: {} }
     'regulated_business_compliance.submit_step_four': { paramsTuple?: []; params?: {} }

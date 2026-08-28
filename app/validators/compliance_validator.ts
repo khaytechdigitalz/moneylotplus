@@ -3,8 +3,10 @@ import vine from '@vinejs/vine'
 /**
  * Step 1: Basic Identity & Personal Info Validator
  */
+
 export const complianceStepOneValidator = vine.compile(
   vine.object({
+    // Personal Information
     phone: vine.string().trim().mobile({ locale: ['en-NG', 'en-GB', 'en-US'] }),
     nationality: vine.string().trim().minLength(2).maxLength(50),
     countryOfBirth: vine.string().trim().minLength(2).maxLength(50),
@@ -14,50 +16,74 @@ export const complianceStepOneValidator = vine.compile(
       eighteenYearsAgo.setFullYear(eighteenYearsAgo.getFullYear() - 18)
       return eighteenYearsAgo.toISOString().split('T')[0]
     }),
+
+    maritalStatus: vine.string().trim().toLowerCase().optional(),
+    
+    // Accepts either "Dependant" (from incoming JSON) or "dependants"
+    Dependant: vine.string().trim().optional(),
+    dependants: vine.string().trim().optional(),
+
+    // General / Primary Address Details
+    address_line1: vine.string().trim().optional(),
+    address_line2: vine.string().trim().optional(),
+    postalcode: vine.string().trim().optional(),
+    city: vine.string().trim().optional(),
+    country: vine.string().trim().optional(),
+    countryOfResidence: vine.string().trim().optional(),
+
+    // Mailing Address Details
+    mailing_address_line1: vine.string().trim().optional(),
+    mailing_address_line2: vine.string().trim().optional(),
+
+    // Residential Address Details
+    residential_address_line1: vine.string().trim().optional(),
+    residential_address_line2: vine.string().trim().optional(),
+    residential_postalcode: vine.string().trim().optional(),
+    residential_city: vine.string().trim().optional(),
+    residential_country: vine.string().trim().optional(),
   })
 )
-
 /**
  * Step 2: Individual Compliance Assessment Validator
 */
 export const complianceStepTwoIndividualValidator = vine.compile(
   vine.object({
-    // Column 1: Array of chosen services
-    selectedServices: vine.array(vine.string().trim()).minLength(1),
+   selectedServices: vine.array(vine.string().trim()).minLength(1),
 
-    // Column 2: Employment & Income Details
     employmentDetails: vine.object({
       status: vine.string().trim(),
       employer: vine.string().trim().optional(),
-      annualIncome: vine.string().trim(),
-      investmentPortfolio: vine.string().trim(),
+      business_category: vine.string().trim().optional(),
+      occupation: vine.string().trim().optional(),
+      annualIncome: vine.string().trim().optional(),
+      investmentPortfolio: vine.string().trim().optional(),
     }),
 
-    // Column 3: Investment Background
     investmentBackground: vine.object({
-      yearsActiveInvesting: vine.string().trim(),
-      typicalTransactionSize: vine.string().trim(),
+      yearsActiveInvesting: vine.string().trim().optional(),
+      typicalTransactionSize: vine.string().trim().optional(),
+      tradesPerYear: vine.string().trim().optional(),
+      maeketYouTraded: vine.string().trim().optional(), // Preserved key from payload
+      professionalRoleInFinance: vine.string().trim().optional(),
     }),
 
-    // Column 4: Knowledge Assessment Answers (Optional) (Dynamic Key-Value Map)
-    knowledgeAnswers: vine
-      .record(vine.string().trim())
-      .optional(),
+    // Document Type Descriptors
+    Proof_of_invesetment_type: vine.string().trim().optional(),
+    professional_experience_type: vine.string().trim().optional(),
 
-    // Column 5: Evidence File Uploads (Optional)
-    evidenceOfSale: vine
-      .object({
-        tradingFrequencyProof: vine
-          .file({ size: '25mb', extnames: ['pdf', 'csv', 'jpg', 'png'] })
-          .optional(),
-        portfolioSizeProof: vine
-          .file({ size: '25mb', extnames: ['pdf', 'csv', 'jpg', 'png'] })
-          .optional(),
-        professionalExperience: vine
-          .file({ size: '25mb', extnames: ['pdf', 'csv', 'jpg', 'png'] })
-          .optional(),
-      })
-      .optional(),
+    // Dynamic File Uploads (Optional)
+    Proof_of_invesetment: vine.file({
+      size: '5mb',
+      extnames: ['pdf', 'png', 'jpg', 'jpeg'],
+    }).optional(),
+
+    professional_experience: vine.file({
+      size: '5mb',
+      extnames: ['pdf', 'png', 'jpg', 'jpeg'],
+    }).optional(),
+
+    // Dynamic Key-Value pairs for Knowledge Answers (Questions -> Answers)
+    knowledgeAnswers: vine.record(vine.string().trim()).optional(),
   })
 )
 

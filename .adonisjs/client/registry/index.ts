@@ -138,6 +138,12 @@ const routes = {
     tokens: [{"old":"/api/v1/account/compliance/personal/step_four","type":0,"val":"api","end":""},{"old":"/api/v1/account/compliance/personal/step_four","type":0,"val":"v1","end":""},{"old":"/api/v1/account/compliance/personal/step_four","type":0,"val":"account","end":""},{"old":"/api/v1/account/compliance/personal/step_four","type":0,"val":"compliance","end":""},{"old":"/api/v1/account/compliance/personal/step_four","type":0,"val":"personal","end":""},{"old":"/api/v1/account/compliance/personal/step_four","type":0,"val":"step_four","end":""}],
     types: placeholder as Registry['personal_compliance.submit_step_four']['types'],
   },
+  'personal_compliance.submit_step_acknowledgement': {
+    methods: ["POST"],
+    pattern: '/api/v1/account/compliance/personal/acknowledgement',
+    tokens: [{"old":"/api/v1/account/compliance/personal/acknowledgement","type":0,"val":"api","end":""},{"old":"/api/v1/account/compliance/personal/acknowledgement","type":0,"val":"v1","end":""},{"old":"/api/v1/account/compliance/personal/acknowledgement","type":0,"val":"account","end":""},{"old":"/api/v1/account/compliance/personal/acknowledgement","type":0,"val":"compliance","end":""},{"old":"/api/v1/account/compliance/personal/acknowledgement","type":0,"val":"personal","end":""},{"old":"/api/v1/account/compliance/personal/acknowledgement","type":0,"val":"acknowledgement","end":""}],
+    types: placeholder as Registry['personal_compliance.submit_step_acknowledgement']['types'],
+  },
   'regulated_business_compliance.submit_step_one': {
     methods: ["POST"],
     pattern: '/api/v1/account/compliance/regulated_business/step_one',
