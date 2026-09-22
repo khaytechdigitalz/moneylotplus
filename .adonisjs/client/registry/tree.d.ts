@@ -2,6 +2,56 @@
 import type { routes } from './index.ts'
 
 export interface ApiDefinition {
+  adminAuth: {
+    login: typeof routes['admin_auth.login']
+    verifyTwoFactor: typeof routes['admin_auth.verify_two_factor']
+    sendForgotOtp: typeof routes['admin_auth.send_forgot_otp']
+    resendForgotOtp: typeof routes['admin_auth.resend_forgot_otp']
+    verifyForgotOtp: typeof routes['admin_auth.verify_forgot_otp']
+    resetPassword: typeof routes['admin_auth.reset_password']
+    me: typeof routes['admin_auth.me']
+    logout: typeof routes['admin_auth.logout']
+  }
+  adminInvitation: {
+    getInviteDetails: typeof routes['admin_invitation.get_invite_details']
+    acceptInvite: typeof routes['admin_invitation.accept_invite']
+    verifyOtp: typeof routes['admin_invitation.verify_otp']
+  }
+  adminCompliance: {
+    index: typeof routes['admin_compliance.index']
+    show: typeof routes['admin_compliance.show']
+    getEligibilityAndServices: typeof routes['admin_compliance.get_eligibility_and_services']
+    getIdentityVerification: typeof routes['admin_compliance.get_identity_verification']
+    getSettlementAccount: typeof routes['admin_compliance.get_settlement_account']
+    approve: typeof routes['admin_compliance.approve']
+    reject: typeof routes['admin_compliance.reject']
+    requestDocument: typeof routes['admin_compliance.request_document']
+  }
+  auditLogs: {
+    index: typeof routes['audit_logs.index']
+    show: typeof routes['audit_logs.show']
+  }
+  teamManagement: {
+    listTeams: typeof routes['team_management.list_teams']
+    listMembers: typeof routes['team_management.list_members']
+    createTeam: typeof routes['team_management.create_team']
+    showTeam: typeof routes['team_management.show_team']
+    updateTeam: typeof routes['team_management.update_team']
+    invite: typeof routes['team_management.invite']
+  }
+  roleManagement: {
+    listPermissions: typeof routes['role_management.list_permissions']
+    listRoles: typeof routes['role_management.list_roles']
+    createRole: typeof routes['role_management.create_role']
+    showRole: typeof routes['role_management.show_role']
+    updateRole: typeof routes['role_management.update_role']
+    toggleStatus: typeof routes['role_management.toggle_status']
+  }
+  adminProfile: {
+    show: typeof routes['admin_profile.show']
+    updateProfile: typeof routes['admin_profile.update_profile']
+    updatePassword: typeof routes['admin_profile.update_password']
+  }
   sumsubWebhook: {
     handleWebhook: typeof routes['sumsub_webhook.handle_webhook']
   }

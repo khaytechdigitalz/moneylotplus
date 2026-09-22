@@ -3,8 +3,8 @@ import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import User from '#models/user'
 
-export default class UserComplianceDocument extends BaseModel {
-  public static tableName = 'users_compliance_documents'
+export default class UserAdminProfile extends BaseModel {
+  public static table = 'users_admin_profiles'
 
   @column({ isPrimary: true })
   declare id: number
@@ -13,10 +13,16 @@ export default class UserComplianceDocument extends BaseModel {
   declare userId: number
 
   @column()
-  declare documentType: string
+  declare firstName: string | null
 
   @column()
-  declare document: string
+  declare lastName: string | null
+
+  @column()
+  declare phone: string | null
+
+  @column()
+  declare avatar: string | null
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

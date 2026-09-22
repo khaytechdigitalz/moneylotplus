@@ -10,19 +10,24 @@
 import { middleware } from '#start/kernel'
 import router from '@adonisjs/core/services/router'
 import { controllers } from '#generated/controllers'
+import { adminRoutes } from '#start/admin'
+
 const VerifyEmailController = () => import('#controllers/verify_emails_controller')
 const MfaController = () => import('#controllers/mfas_controller')
 const DashboardController = () => import('#controllers/dashboards_controller')
 const PersonalComplianceController = () => import('#controllers/personal_compliance_controller')
-const RegulatedBusinessComplianceController = () => import('#controllers/regulatedbusiness_compliance_controller')
+const RegulatedBusinessComplianceController = () =>
+import('#controllers/regulatedbusiness_compliance_controller')
 const IbkrConnectController = () => import('#controllers/ibkr_connect_controller')
 const ComplianceController = () => import('#controllers/compliance_controller')
 const SumsubWebhookController = () => import('#controllers/sumsub_webhook_controller')
 
+// Register Admin Routes
+adminRoutes()
+
 router.get('/', () => {
   return { hello: 'world' }
 })
-
 
 router
   .group(() => {
@@ -32,7 +37,6 @@ router
 
 router
   .group(() => {
-
     router
       .group(() => {
         router.post('signup', [controllers.NewAccount, 'signup'])
@@ -56,23 +60,24 @@ router
         router.post('forgot-password/verify-otp', [controllers.ForgotPasswords, 'verifyOtp'])
         router.post('forgot-password/reset', [controllers.ForgotPasswords, 'resetPassword'])
 
-        router.get('verify-email/:id', [VerifyEmailController, 'verify'])
+        router
+          .get('verify-email/:id', [VerifyEmailController, 'verify'])
           .as('verify_email')
           .use(({ request, response }, next) => {
             // Enforce that the incoming URL signature is cryptographically valid
             if (!request.hasValidSignature()) {
-              return response.badRequest({ message: 'The verification link is invalid or has expired.' })
+              return response.badRequest({
+                message: 'The verification link is invalid or has expired.',
+              })
             }
             return next()
           })
-
       })
       .prefix('auth')
       .as('auth')
 
     router
       .group(() => {
-
         // ==========================================
         // 1. Basic Auth Routes (No 2FA Enforced Yet)
         // ==========================================
@@ -86,41 +91,66 @@ router
         // ==========================================
         // 2. High-Security Routes (2FA Strictly Required)
         // ==========================================
-        router.group(() => {
-          //Compliance Dependencies
-          router.get('compliance/sumsub_token', [ComplianceController, 'getSumSubToken'])
-          router.get('compliance/sumsub_status', [ComplianceController, 'getStepThreeStatus'])
-          router.get('compliance/knowledge_assessment', [ComplianceController, 'getKAQuestion'])
+        router
+          .group(() => {
+            //Compliance Dependencies
+            router.get('compliance/sumsub_token', [ComplianceController, 'getSumSubToken'])
+            router.get('compliance/sumsub_status', [ComplianceController, 'getStepThreeStatus'])
+            router.get('compliance/knowledge_assessment', [ComplianceController, 'getKAQuestion'])
 
-          // Personal Compliance Steps
-          router.post('compliance/personal/step_one', [PersonalComplianceController, 'submitStepOne']).use(middleware.individual()) 
-          router.post('compliance/personal/step_two', [PersonalComplianceController, 'submitStepTwo']).use(middleware.individual()) 
-          router.post('compliance/personal/step_four', [PersonalComplianceController, 'submitStepFour']).use(middleware.individual()) 
-          router.post('compliance/personal/acknowledgement', [PersonalComplianceController, 'submitStepAcknowledgement']).use(middleware.individual()) 
+            // Personal Compliance Steps
+            router
+              .post('compliance/personal/step_one', [PersonalComplianceController, 'submitStepOne'])
+              .use(middleware.individual())
+            router
+              .post('compliance/personal/step_two', [PersonalComplianceController, 'submitStepTwo'])
+              .use(middleware.individual())
+            router
+              .post('compliance/personal/step_four', [
+                PersonalComplianceController,
+                'submitStepFour',
+              ])
+              .use(middleware.individual())
+            router
+              .post('compliance/personal/acknowledgement', [
+                PersonalComplianceController,
+                'submitStepAcknowledgement',
+              ])
+              .use(middleware.individual())
 
-          // Regulated Business Compliance Steps
-          router.post('compliance/regulated_business/step_one', [RegulatedBusinessComplianceController, 'submitStepOne'])
-            .use([middleware.business(), middleware.regulatedbusiness()])
+            // Regulated Business Compliance Steps
+            router
+              .post('compliance/regulated_business/step_one', [
+                RegulatedBusinessComplianceController,
+                'submitStepOne',
+              ])
+              .use([middleware.business(), middleware.regulatedbusiness()])
 
-          router.post('compliance/regulated_business/step_two', [RegulatedBusinessComplianceController, 'submitStepTwo'])
-            .use([middleware.business(), middleware.regulatedbusiness()])
+            router
+              .post('compliance/regulated_business/step_two', [
+                RegulatedBusinessComplianceController,
+                'submitStepTwo',
+              ])
+              .use([middleware.business(), middleware.regulatedbusiness()])
 
-          router.post('compliance/regulated_business/step_four', [RegulatedBusinessComplianceController, 'submitStepFour'])
-            .use([middleware.business(), middleware.regulatedbusiness()])
+            router
+              .post('compliance/regulated_business/step_four', [
+                RegulatedBusinessComplianceController,
+                'submitStepFour',
+              ])
+              .use([middleware.business(), middleware.regulatedbusiness()])
 
-          // Dashboard
-          router.get('dashboard', [DashboardController, 'dashboard'])
+            // Dashboard
+            router.get('dashboard', [DashboardController, 'dashboard'])
 
-          //IBKR Functions
-          // OAuth Routes
-          router.get('ibkr/connect', [IbkrConnectController, 'initiateAuth'])
-          router.get('ibkr/callback', [IbkrConnectController, 'handleCallback'])
-          // Flex Web Service Manual Linking Route
-          router.post('ibkr/link-flex', [IbkrConnectController, 'linkFlexService'])
-
-
-        }).use(middleware.mfa()) // Enforces 2FA only on these specific endpoints
-
+            //IBKR Functions
+            // OAuth Routes
+            router.get('ibkr/connect', [IbkrConnectController, 'initiateAuth'])
+            router.get('ibkr/callback', [IbkrConnectController, 'handleCallback'])
+            // Flex Web Service Manual Linking Route
+            router.post('ibkr/link-flex', [IbkrConnectController, 'linkFlexService'])
+          })
+          .use(middleware.mfa()) // Enforces 2FA only on these specific endpoints
       })
       .prefix('account')
       .use(middleware.auth()) // Every route inside /account still requires being logged in

@@ -81,6 +81,12 @@ export default class UserIndividualProfile extends BaseModel {
   @column()
   declare complianceStep: string
 
+  @column()
+  declare complianceStatus: string | null
+
+  @column()
+  declare complianceNote: string | null
+
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
 

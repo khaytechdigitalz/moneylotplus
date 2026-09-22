@@ -6,7 +6,7 @@ import app from '@adonisjs/core/services/app'
 import logger from '@adonisjs/core/services/logger'
 import UsersComplianceAssessment from '#models/users_compliance_assessment'
 import UsersSettlementAccount from '#models/users_settlement_account'
-import UserComplianceDocument from '#models/user_compliance_document'
+import UserComplianceDocument from '#models/users_compliance_documents'
 
 
 export default class PersonalComplianceController {
@@ -110,13 +110,13 @@ export default class PersonalComplianceController {
     const activeUploads = documentFiles.filter((item) => item.file && item.file.isValid)
 
     // Optional Business Rule: Check if minimum proof requirements are met (uncomment if enforced)
-    /*
+  
     if (activeUploads.length < 1) {
       return response.badRequest({
         errors: [{ message: 'Please attach at least one document proof to proceed.' }],
       })
     }
-    */
+    
 
     // 4. Spin up database transaction
     const transaction = await db.transaction()

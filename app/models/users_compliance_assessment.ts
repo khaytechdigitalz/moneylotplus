@@ -57,6 +57,12 @@ export default class UsersComplianceAssessment extends BaseModel {
 
   @column()
   declare identityVerificationId: string | null
+
+  @column()
+  declare pepDeclaration: string | null
+
+  @column()
+  declare taxInformation: string | null
   
   // Column 4: Answers to compliance questions (Optional)
   @column({

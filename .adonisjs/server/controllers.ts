@@ -5,6 +5,15 @@
 
 export const controllers = {
   AccessTokens: () => import('#controllers/access_tokens_controller'),
+  admin: {
+    AdminAuth: () => import('#controllers/admin/admin_auth_controller'),
+    AdminCompliance: () => import('#controllers/admin/admin_compliance_controller'),
+    AdminInvitation: () => import('#controllers/admin/admin_invitation_controller'),
+    AdminProfile: () => import('#controllers/admin/admin_profile_controller'),
+    TeamManagement: () => import('#controllers/admin/team_management_controller'),
+    AuditLogs: () => import('#controllers/admin/audit_logs_controller'),
+    RoleManagement: () => import('#controllers/admin/role_management_controller'),
+  },
   Compliance: () => import('#controllers/compliance_controller'),
   Dashboards: () => import('#controllers/dashboards_controller'),
   ForgotPasswords: () => import('#controllers/forgot_passwords_controller'),

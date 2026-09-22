@@ -4,7 +4,7 @@ import type { HttpContext } from '@adonisjs/core/http'
 import crypto from 'node:crypto'
 import { DateTime } from 'luxon'
 // import hash from '@adonisjs/core/services/hash'
-import mail from '@adonisjs/mail/services/main' // Import your mail service here to send the actual email
+import mail from '@adonisjs/mail/services/main' 
 
 export default class ForgotPasswordsController {
   /**

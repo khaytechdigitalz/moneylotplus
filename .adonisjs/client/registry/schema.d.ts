@@ -7,6 +7,438 @@ import type { InferInput, SimpleError } from '@vinejs/vine/types'
 export type ParamValue = string | number | bigint | boolean
 
 export interface Registry {
+  'admin_auth.login': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/auth/login'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['login']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['login']>>>
+    }
+  }
+  'admin_auth.verify_two_factor': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/auth/login/verify-2fa'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['verifyTwoFactor']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['verifyTwoFactor']>>>
+    }
+  }
+  'admin_auth.send_forgot_otp': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/auth/forgot-password/send-otp'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['sendForgotOtp']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['sendForgotOtp']>>>
+    }
+  }
+  'admin_auth.resend_forgot_otp': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/auth/forgot-password/resend-otp'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['resendForgotOtp']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['resendForgotOtp']>>>
+    }
+  }
+  'admin_auth.verify_forgot_otp': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/auth/forgot-password/verify-otp'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['verifyForgotOtp']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['verifyForgotOtp']>>>
+    }
+  }
+  'admin_auth.reset_password': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/auth/forgot-password/reset'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['resetPassword']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['resetPassword']>>>
+    }
+  }
+  'admin_invitation.get_invite_details': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/invite/details/:token'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { token: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_invitation_controller').default['getInviteDetails']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_invitation_controller').default['getInviteDetails']>>>
+    }
+  }
+  'admin_invitation.accept_invite': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/invite/accept-invite'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/admin_onboarding_validator').acceptInviteValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/admin_onboarding_validator').acceptInviteValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_invitation_controller').default['acceptInvite']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_invitation_controller').default['acceptInvite']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin_invitation.verify_otp': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/invite/verify-otp'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/admin_onboarding_validator').verifyOtpValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/admin_onboarding_validator').verifyOtpValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_invitation_controller').default['verifyOtp']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_invitation_controller').default['verifyOtp']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin_auth.me': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/me'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['me']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['me']>>>
+    }
+  }
+  'admin_auth.logout': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/logout'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['logout']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['logout']>>>
+    }
+  }
+  'admin_compliance.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/compliance/dashboard'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['index']>>>
+    }
+  }
+  'admin_compliance.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/compliance/account-info/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['show']>>>
+    }
+  }
+  'admin_compliance.get_eligibility_and_services': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/compliance/eligibility/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['getEligibilityAndServices']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['getEligibilityAndServices']>>>
+    }
+  }
+  'admin_compliance.get_identity_verification': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/compliance/identity/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['getIdentityVerification']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['getIdentityVerification']>>>
+    }
+  }
+  'admin_compliance.get_settlement_account': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/compliance/settlement/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['getSettlementAccount']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['getSettlementAccount']>>>
+    }
+  }
+  'admin_compliance.approve': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/compliance/approve/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['approve']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['approve']>>>
+    }
+  }
+  'admin_compliance.reject': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/compliance/reject/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['reject']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['reject']>>>
+    }
+  }
+  'admin_compliance.request_document': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/compliance/request-document/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['requestDocument']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['requestDocument']>>>
+    }
+  }
+  'audit_logs.index': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/audit-logs'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/audit_logs_controller').default['index']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/audit_logs_controller').default['index']>>>
+    }
+  }
+  'audit_logs.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/audit-logs/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/audit_logs_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/audit_logs_controller').default['show']>>>
+    }
+  }
+  'team_management.list_teams': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/team'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['listTeams']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['listTeams']>>>
+    }
+  }
+  'team_management.list_members': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/team/members'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['listMembers']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['listMembers']>>>
+    }
+  }
+  'team_management.create_team': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/team/create'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/team_management_validator').createTeamValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/team_management_validator').createTeamValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['createTeam']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['createTeam']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'team_management.show_team': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/team/details/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['showTeam']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['showTeam']>>>
+    }
+  }
+  'team_management.update_team': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/team/update/:id'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/team_management_validator').updateTeamValidator)>>
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: ExtractQuery<InferInput<(typeof import('#validators/team_management_validator').updateTeamValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['updateTeam']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['updateTeam']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'team_management.invite': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/team/invite'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/admin_management_validator').inviteAdminValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/admin_management_validator').inviteAdminValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['invite']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['invite']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'role_management.list_permissions': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/roles/permissions'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'role_management.list_roles': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/roles/list'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'role_management.create_role': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/roles/create'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'role_management.show_role': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/roles/details/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'role_management.update_role': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/roles/update/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'role_management.toggle_status': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/roles/toggle-status/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: unknown
+      errorResponse: unknown
+    }
+  }
+  'admin_profile.show': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/profile'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_profile_controller').default['show']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_profile_controller').default['show']>>>
+    }
+  }
+  'admin_profile.update_profile': {
+    methods: ["PUT"]
+    pattern: '/api/v1/admin/profile'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/admin_profile_validator').updateProfileValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/admin_profile_validator').updateProfileValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_profile_controller').default['updateProfile']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_profile_controller').default['updateProfile']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'admin_profile.update_password': {
+    methods: ["PUT"]
+    pattern: '/api/v1/admin/profile/password'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/admin_profile_validator').updatePasswordValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/admin_profile_validator').updatePasswordValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_profile_controller').default['updatePassword']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_profile_controller').default['updatePassword']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
   'sumsub_webhook.handle_webhook': {
     methods: ["POST"]
     pattern: '/api/webhooks/sumsub'

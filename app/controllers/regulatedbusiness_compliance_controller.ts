@@ -13,7 +13,7 @@ import logger from '@adonisjs/core/services/logger'
 import UsersComplianceAssessment from '#models/users_compliance_assessment'
 import UsersSettlementAccount from '#models/users_settlement_account'
 import UserBusinessOwner from '#models/users_business_owner'
-import UserComplianceDocument from '#models/user_compliance_document'
+import UserComplianceDocument from '#models/users_compliance_documents'
 
 export default class RegulatedBusinessComplianceController {
   /**

@@ -11,8 +11,6 @@ export default class UserBusinessProfile extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @column()
-  declare complianceStep: string
 
   @column()
  declare businessCategory: string
@@ -32,6 +30,7 @@ export default class UserBusinessProfile extends BaseModel {
   @column()
   declare businessName: string
 
+
   @column()
   declare countryOfOperations: string
 
@@ -46,6 +45,15 @@ export default class UserBusinessProfile extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime | null
+
+  @column()
+  declare complianceStep: string
+  
+  @column()
+  declare complianceStatus: string | null
+
+  @column()
+  declare complianceNote: string | null
 
   // 2. Define relationship: This profile belongs to a User
   @belongsTo(() => User)
