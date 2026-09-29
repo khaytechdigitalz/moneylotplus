@@ -102,8 +102,14 @@ const routes = {
     tokens: [{"old":"/api/v1/admin/compliance/settlement/:id","type":0,"val":"api","end":""},{"old":"/api/v1/admin/compliance/settlement/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/compliance/settlement/:id","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/compliance/settlement/:id","type":0,"val":"compliance","end":""},{"old":"/api/v1/admin/compliance/settlement/:id","type":0,"val":"settlement","end":""},{"old":"/api/v1/admin/compliance/settlement/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['admin_compliance.get_settlement_account']['types'],
   },
+  'admin_compliance.send_compliance_otp': {
+    methods: ["POST"],
+    pattern: '/api/v1/admin/compliance/otp/push',
+    tokens: [{"old":"/api/v1/admin/compliance/otp/push","type":0,"val":"api","end":""},{"old":"/api/v1/admin/compliance/otp/push","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/compliance/otp/push","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/compliance/otp/push","type":0,"val":"compliance","end":""},{"old":"/api/v1/admin/compliance/otp/push","type":0,"val":"otp","end":""},{"old":"/api/v1/admin/compliance/otp/push","type":0,"val":"push","end":""}],
+    types: placeholder as Registry['admin_compliance.send_compliance_otp']['types'],
+  },
   'admin_compliance.approve': {
-    methods: ["GET","HEAD"],
+    methods: ["POST"],
     pattern: '/api/v1/admin/compliance/approve/:id',
     tokens: [{"old":"/api/v1/admin/compliance/approve/:id","type":0,"val":"api","end":""},{"old":"/api/v1/admin/compliance/approve/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/compliance/approve/:id","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/compliance/approve/:id","type":0,"val":"compliance","end":""},{"old":"/api/v1/admin/compliance/approve/:id","type":0,"val":"approve","end":""},{"old":"/api/v1/admin/compliance/approve/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['admin_compliance.approve']['types'],
@@ -144,6 +150,24 @@ const routes = {
     tokens: [{"old":"/api/v1/admin/team/members","type":0,"val":"api","end":""},{"old":"/api/v1/admin/team/members","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/team/members","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/team/members","type":0,"val":"team","end":""},{"old":"/api/v1/admin/team/members","type":0,"val":"members","end":""}],
     types: placeholder as Registry['team_management.list_members']['types'],
   },
+  'team_management.show_team_member': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/admin/team/member/details/:id',
+    tokens: [{"old":"/api/v1/admin/team/member/details/:id","type":0,"val":"api","end":""},{"old":"/api/v1/admin/team/member/details/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/team/member/details/:id","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/team/member/details/:id","type":0,"val":"team","end":""},{"old":"/api/v1/admin/team/member/details/:id","type":0,"val":"member","end":""},{"old":"/api/v1/admin/team/member/details/:id","type":0,"val":"details","end":""},{"old":"/api/v1/admin/team/member/details/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['team_management.show_team_member']['types'],
+  },
+  'team_management.activate_team_member': {
+    methods: ["POST"],
+    pattern: '/api/v1/admin/team/member/activate/:id',
+    tokens: [{"old":"/api/v1/admin/team/member/activate/:id","type":0,"val":"api","end":""},{"old":"/api/v1/admin/team/member/activate/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/team/member/activate/:id","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/team/member/activate/:id","type":0,"val":"team","end":""},{"old":"/api/v1/admin/team/member/activate/:id","type":0,"val":"member","end":""},{"old":"/api/v1/admin/team/member/activate/:id","type":0,"val":"activate","end":""},{"old":"/api/v1/admin/team/member/activate/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['team_management.activate_team_member']['types'],
+  },
+  'team_management.dectivate_team_member': {
+    methods: ["POST"],
+    pattern: '/api/v1/admin/team/member/deactivate/:id',
+    tokens: [{"old":"/api/v1/admin/team/member/deactivate/:id","type":0,"val":"api","end":""},{"old":"/api/v1/admin/team/member/deactivate/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/team/member/deactivate/:id","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/team/member/deactivate/:id","type":0,"val":"team","end":""},{"old":"/api/v1/admin/team/member/deactivate/:id","type":0,"val":"member","end":""},{"old":"/api/v1/admin/team/member/deactivate/:id","type":0,"val":"deactivate","end":""},{"old":"/api/v1/admin/team/member/deactivate/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['team_management.dectivate_team_member']['types'],
+  },
   'team_management.create_team': {
     methods: ["POST"],
     pattern: '/api/v1/admin/team/create',
@@ -155,6 +179,18 @@ const routes = {
     pattern: '/api/v1/admin/team/details/:id',
     tokens: [{"old":"/api/v1/admin/team/details/:id","type":0,"val":"api","end":""},{"old":"/api/v1/admin/team/details/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/team/details/:id","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/team/details/:id","type":0,"val":"team","end":""},{"old":"/api/v1/admin/team/details/:id","type":0,"val":"details","end":""},{"old":"/api/v1/admin/team/details/:id","type":1,"val":"id","end":""}],
     types: placeholder as Registry['team_management.show_team']['types'],
+  },
+  'team_management.activate_team': {
+    methods: ["POST"],
+    pattern: '/api/v1/admin/team/activate/:id',
+    tokens: [{"old":"/api/v1/admin/team/activate/:id","type":0,"val":"api","end":""},{"old":"/api/v1/admin/team/activate/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/team/activate/:id","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/team/activate/:id","type":0,"val":"team","end":""},{"old":"/api/v1/admin/team/activate/:id","type":0,"val":"activate","end":""},{"old":"/api/v1/admin/team/activate/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['team_management.activate_team']['types'],
+  },
+  'team_management.deactivate_team': {
+    methods: ["POST"],
+    pattern: '/api/v1/admin/team/deactivate/:id',
+    tokens: [{"old":"/api/v1/admin/team/deactivate/:id","type":0,"val":"api","end":""},{"old":"/api/v1/admin/team/deactivate/:id","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/team/deactivate/:id","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/team/deactivate/:id","type":0,"val":"team","end":""},{"old":"/api/v1/admin/team/deactivate/:id","type":0,"val":"deactivate","end":""},{"old":"/api/v1/admin/team/deactivate/:id","type":1,"val":"id","end":""}],
+    types: placeholder as Registry['team_management.deactivate_team']['types'],
   },
   'team_management.update_team': {
     methods: ["POST"],

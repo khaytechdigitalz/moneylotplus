@@ -199,8 +199,20 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['getSettlementAccount']>>>
     }
   }
+  'admin_compliance.send_compliance_otp': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/compliance/otp/push'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['sendComplianceOtp']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_compliance_controller').default['sendComplianceOtp']>>>
+    }
+  }
   'admin_compliance.approve': {
-    methods: ["GET","HEAD"]
+    methods: ["POST"]
     pattern: '/api/v1/admin/compliance/approve/:id'
     types: {
       body: {}
@@ -283,6 +295,42 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['listMembers']>>>
     }
   }
+  'team_management.show_team_member': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/admin/team/member/details/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['showTeamMember']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['showTeamMember']>>>
+    }
+  }
+  'team_management.activate_team_member': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/team/member/activate/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['activateTeamMember']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['activateTeamMember']>>>
+    }
+  }
+  'team_management.dectivate_team_member': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/team/member/deactivate/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['dectivateTeamMember']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['dectivateTeamMember']>>>
+    }
+  }
   'team_management.create_team': {
     methods: ["POST"]
     pattern: '/api/v1/admin/team/create'
@@ -305,6 +353,30 @@ export interface Registry {
       query: {}
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['showTeam']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['showTeam']>>>
+    }
+  }
+  'team_management.activate_team': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/team/activate/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['activateTeam']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['activateTeam']>>>
+    }
+  }
+  'team_management.deactivate_team': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/team/deactivate/:id'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { id: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['deactivateTeam']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['deactivateTeam']>>>
     }
   }
   'team_management.update_team': {

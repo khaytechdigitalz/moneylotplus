@@ -5,6 +5,7 @@ import UsersSettlementAccount from '#models/users_settlement_account'
 import logger from '@adonisjs/core/services/logger'
 import { DateTime } from 'luxon'
 import { logAudit } from '#services/audit_service'
+import mail from '@adonisjs/mail/services/main'
 
 export default class AdminComplianceController {
   /**
@@ -633,8 +634,24 @@ export default class AdminComplianceController {
    * 1. Approve Customer Compliance Status
    */
   async approve(ctx: HttpContext) {
-    const { params, response } = ctx
+    const { auth,  params, request, response } = ctx
+  
     const userId = params.id
+    const otp = request.input('otp')
+    if (!otp || otp.trim() === '') {
+      return response.badRequest({
+        errors: [{ message: 'Please enter OTP.' }],
+      })
+    }
+    const admin = auth.user! as User
+    if (
+      !admin.otpToken ||
+      admin.otpToken !== otp ||
+      !admin.otpTokenExpiresAt ||
+      admin.otpTokenExpiresAt < DateTime.now()
+    ) {
+      return response.badRequest({ errors: [{ message: 'Invalid or expired OTP.' }] })
+    }
 
     try {
       const user = await User.query()
@@ -675,6 +692,10 @@ export default class AdminComplianceController {
         newValues: { complianceStatus: profile.complianceStatus },
       })
 
+       admin.otpToken = null
+       admin.otpTokenExpiresAt = null
+       await admin.save()
+    
       return response.ok({
         success: true,
         message: 'Customer compliance status approved successfully.',
@@ -700,9 +721,25 @@ export default class AdminComplianceController {
    * 2. Reject Customer Compliance Status with Reason
    */
   async reject(ctx: HttpContext) {
-    const { params, request, response } = ctx
+    const { auth, params, request, response } = ctx
     const userId = params.id
     const reason = request.input('reason') || request.input('rejectionReason')
+    const otp = request.input('otp')
+    if (!otp || otp.trim() === '') {
+      return response.badRequest({
+        errors: [{ message: 'Please enter OTP.' }],
+      })
+    }
+
+     const admin = auth.user! as User
+    if (
+      !admin.otpToken ||
+      admin.otpToken !== otp ||
+      !admin.otpTokenExpiresAt ||
+      admin.otpTokenExpiresAt < DateTime.now()
+    ) {
+      return response.badRequest({ errors: [{ message: 'Invalid or expired OTP.' }] })
+    }
 
     if (!reason || reason.trim() === '') {
       return response.badRequest({
@@ -754,6 +791,10 @@ export default class AdminComplianceController {
         },
       })
 
+       admin.otpToken = null
+       admin.otpTokenExpiresAt = null
+       await admin.save()
+       
       return response.ok({
         success: true,
         message: 'Customer compliance status has been rejected.',
@@ -861,6 +902,35 @@ export default class AdminComplianceController {
       })
     }
   }
+ 
+  /**
+   * Compliance Status Update- Send OTP
+   */
+    async sendComplianceOtp(ctx: HttpContext) {
+    const { auth, response } = ctx
+    const user = auth.user! as User
+    const otp = Math.floor(100000 + Math.random() * 900000).toString()
+    user.otpToken = otp
+    user.otpTokenExpiresAt = DateTime.now().plus({ minutes: 15 })
+    await user.save()
+
+    try {
+      await mail.send((message) => {
+        message
+          .to(user.email)
+          .subject('Compliance Status Update OTP')
+          .htmlView('emails/admin_compliance_otp', { otp })
+      })
+    } catch (error) {
+      logger.error({ err: error }, 'Failed to send admin password reset email')
+    }
+
+    return response.ok({
+      success: true,
+      message: 'Action OTO sent to your email.',
+    })
+  }
+
 
   /**
    * Helper to format raw document types to clean UI display labels

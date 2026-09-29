@@ -9,6 +9,8 @@ import {
 } from '#validators/role_management_validator'
 import logger from '@adonisjs/core/services/logger'
 import { logAudit } from '#services/audit_service'
+import { DateTime } from 'luxon'
+import User from '#models/user'
 
 export default class RoleManagementController {
   /**
@@ -28,7 +30,7 @@ export default class RoleManagementController {
           slug: item.slug,
           description: item.description,
         })
-        return acc;
+        return acc
       }, {})
 
       return response.ok({
@@ -262,7 +264,7 @@ export default class RoleManagementController {
       await role.save()
 
       // Sync updated permissions
-     if (payload.permissionIds) {
+      if (payload.permissionIds) {
         const currentPermissions = await role.related('permissions').query().select('id')
         oldValues.permissionIds = currentPermissions.map((p) => p.id)
 
@@ -314,7 +316,7 @@ export default class RoleManagementController {
    * 6. Deactivate / Activate a role
    */
   async toggleStatus(ctx: HttpContext) {
-    const { params, request, response } = ctx
+    const { auth, params, request, response } = ctx
     const { id } = params
 
     try {
@@ -327,13 +329,36 @@ export default class RoleManagementController {
         })
       }
 
+      // 3. Validate requesting admin's 2FA OTP
+      const otp = request.input('otp')
+      if (!otp || otp.trim() === '') {
+        return response.badRequest({
+          errors: [{ message: 'Please enter OTP.' }],
+        })
+      }
+
+      const admin = auth.user! as User
+      if (
+        !admin.otpToken ||
+        admin.otpToken !== otp ||
+        !admin.otpTokenExpiresAt ||
+        admin.otpTokenExpiresAt < DateTime.now()
+      ) {
+        return response.badRequest({ errors: [{ message: 'Invalid or expired OTP.' }] })
+      }
+
+      // 4. Consume/invalidate admin OTP token after successful validation
+      admin.otpToken = null
+      admin.otpTokenExpiresAt = null
+      await admin.save()
+
       const oldStatus = role.status
       role.status = payload.status
       await role.save()
 
       // Record Audit Log
       await logAudit(ctx, {
-        action: 'TOGGLE_ROLE_STATUS',
+        action: 'UPDATE_ROLE_STATUS',
         entity: 'roles',
         entityId: role.id,
         oldValues: { status: oldStatus },

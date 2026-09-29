@@ -18,5 +18,8 @@ export const updateRoleValidator = vine.compile(
 export const toggleRoleStatusValidator = vine.compile(
   vine.object({
     status: vine.enum(['active', 'inactive']),
+    otp: vine.string(),
+
   })
+
 )

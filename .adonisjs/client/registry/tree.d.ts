@@ -23,6 +23,7 @@ export interface ApiDefinition {
     getEligibilityAndServices: typeof routes['admin_compliance.get_eligibility_and_services']
     getIdentityVerification: typeof routes['admin_compliance.get_identity_verification']
     getSettlementAccount: typeof routes['admin_compliance.get_settlement_account']
+    sendComplianceOtp: typeof routes['admin_compliance.send_compliance_otp']
     approve: typeof routes['admin_compliance.approve']
     reject: typeof routes['admin_compliance.reject']
     requestDocument: typeof routes['admin_compliance.request_document']
@@ -34,8 +35,13 @@ export interface ApiDefinition {
   teamManagement: {
     listTeams: typeof routes['team_management.list_teams']
     listMembers: typeof routes['team_management.list_members']
+    showTeamMember: typeof routes['team_management.show_team_member']
+    activateTeamMember: typeof routes['team_management.activate_team_member']
+    dectivateTeamMember: typeof routes['team_management.dectivate_team_member']
     createTeam: typeof routes['team_management.create_team']
     showTeam: typeof routes['team_management.show_team']
+    activateTeam: typeof routes['team_management.activate_team']
+    deactivateTeam: typeof routes['team_management.deactivate_team']
     updateTeam: typeof routes['team_management.update_team']
     invite: typeof routes['team_management.invite']
   }

@@ -11,6 +11,9 @@ export default class Team extends BaseModel {
 
   @column()
   declare name: string
+
+  @column()
+  declare status: string
   
   @column()
   declare description: string

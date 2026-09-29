@@ -63,7 +63,8 @@ export function adminRoutes() {
             AdminComplianceController,
             'getSettlementAccount',
           ])
-          router.get('compliance/approve/:id', [AdminComplianceController, 'approve'])
+          router.post('compliance/otp/push', [AdminComplianceController, 'sendComplianceOtp'])
+          router.post('compliance/approve/:id', [AdminComplianceController, 'approve'])
           router.post('compliance/reject/:id', [AdminComplianceController, 'reject'])
           router.post('compliance/request-document/:id', [
             AdminComplianceController,
@@ -77,8 +78,13 @@ export function adminRoutes() {
           // Team Management Routes:
           router.get('team', [TeamManagementController, 'listTeams'])
           router.get('team/members', [TeamManagementController, 'listMembers'])
+          router.get('team/member/details/:id', [TeamManagementController, 'showTeamMember'])
+          router.post('team/member/activate/:id', [TeamManagementController, 'activateTeamMember'])
+          router.post('team/member/deactivate/:id', [TeamManagementController, 'dectivateTeamMember'])
           router.post('team/create', [TeamManagementController, 'createTeam'])
           router.get('team/details/:id', [TeamManagementController, 'showTeam'])
+          router.post('team/activate/:id', [TeamManagementController, 'activateTeam'])
+          router.post('team/deactivate/:id', [TeamManagementController, 'deactivateTeam'])
           router.post('team/update/:id', [TeamManagementController, 'updateTeam'])
           router.post('team/invite', [TeamManagementController, 'invite'])
 

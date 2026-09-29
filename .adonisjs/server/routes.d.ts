@@ -20,6 +20,7 @@ export type ScannedRoutes = {
     'admin_compliance.get_eligibility_and_services': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin_compliance.get_identity_verification': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin_compliance.get_settlement_account': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'admin_compliance.send_compliance_otp': { paramsTuple?: []; params?: {} }
     'admin_compliance.approve': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin_compliance.reject': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin_compliance.request_document': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -27,8 +28,13 @@ export type ScannedRoutes = {
     'audit_logs.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.list_teams': { paramsTuple?: []; params?: {} }
     'team_management.list_members': { paramsTuple?: []; params?: {} }
+    'team_management.show_team_member': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'team_management.activate_team_member': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'team_management.dectivate_team_member': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.create_team': { paramsTuple?: []; params?: {} }
     'team_management.show_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'team_management.activate_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'team_management.deactivate_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.update_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.invite': { paramsTuple?: []; params?: {} }
     'role_management.list_permissions': { paramsTuple?: []; params?: {} }
@@ -81,9 +87,15 @@ export type ScannedRoutes = {
     'admin_invitation.accept_invite': { paramsTuple?: []; params?: {} }
     'admin_invitation.verify_otp': { paramsTuple?: []; params?: {} }
     'admin_auth.logout': { paramsTuple?: []; params?: {} }
+    'admin_compliance.send_compliance_otp': { paramsTuple?: []; params?: {} }
+    'admin_compliance.approve': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin_compliance.reject': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin_compliance.request_document': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'team_management.activate_team_member': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'team_management.dectivate_team_member': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.create_team': { paramsTuple?: []; params?: {} }
+    'team_management.activate_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
+    'team_management.deactivate_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.update_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.invite': { paramsTuple?: []; params?: {} }
     'role_management.create_role': { paramsTuple?: []; params?: {} }
@@ -121,11 +133,11 @@ export type ScannedRoutes = {
     'admin_compliance.get_eligibility_and_services': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin_compliance.get_identity_verification': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin_compliance.get_settlement_account': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin_compliance.approve': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'audit_logs.index': { paramsTuple?: []; params?: {} }
     'audit_logs.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.list_teams': { paramsTuple?: []; params?: {} }
     'team_management.list_members': { paramsTuple?: []; params?: {} }
+    'team_management.show_team_member': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.show_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'role_management.list_permissions': { paramsTuple?: []; params?: {} }
     'role_management.list_roles': { paramsTuple?: []; params?: {} }
@@ -147,11 +159,11 @@ export type ScannedRoutes = {
     'admin_compliance.get_eligibility_and_services': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin_compliance.get_identity_verification': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin_compliance.get_settlement_account': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
-    'admin_compliance.approve': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'audit_logs.index': { paramsTuple?: []; params?: {} }
     'audit_logs.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.list_teams': { paramsTuple?: []; params?: {} }
     'team_management.list_members': { paramsTuple?: []; params?: {} }
+    'team_management.show_team_member': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.show_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'role_management.list_permissions': { paramsTuple?: []; params?: {} }
     'role_management.list_roles': { paramsTuple?: []; params?: {} }

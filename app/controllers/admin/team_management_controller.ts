@@ -355,6 +355,194 @@ export default class TeamManagementController {
   }
 
   /**
+   * Activate a team by ID (requires 2FA OTP)
+   */
+  async activateTeam(ctx: HttpContext) {
+    const { params, request, response, auth } = ctx
+    const teamId = params.id
+
+    try {
+      // 1. Fetch target team
+      const team = await Team.query()
+        .where('id', teamId)
+        .withCount('members')
+        .preload('members', (userQuery) => {
+          userQuery
+            .select(['id', 'email', 'role', 'accountType', 'status', 'createdAt'])
+            .preload('adminProfile', (profileQuery) => {
+              profileQuery.select(['firstName', 'lastName', 'phone', 'avatar'])
+            })
+        })
+        .first()
+
+      if (!team) {
+        return response.notFound({
+          errors: [{ message: 'Team not found.' }],
+        })
+      }
+
+      // 2. Check if team is already active
+      if (team.status === 'active') {
+        return response.badRequest({
+          errors: [{ message: 'Team is already active.' }],
+        })
+      }
+
+      // 3. Validate requesting admin's 2FA OTP
+      const otp = request.input('otp')
+      if (!otp || otp.trim() === '') {
+        return response.badRequest({
+          errors: [{ message: 'Please enter OTP.' }],
+        })
+      }
+
+      const admin = auth.user! as User
+      if (
+        !admin.otpToken ||
+        admin.otpToken !== otp ||
+        !admin.otpTokenExpiresAt ||
+        admin.otpTokenExpiresAt < DateTime.now()
+      ) {
+        return response.badRequest({
+          errors: [{ message: 'Invalid or expired OTP.' }],
+        })
+      }
+
+      // 4. Invalidate admin OTP token after successful validation
+      admin.otpToken = null
+      admin.otpTokenExpiresAt = null
+      await admin.save()
+
+      // 5. Update team status to active
+      const oldStatus = team.status
+      team.status = 'active'
+      await team.save()
+
+      // 6. Record Audit Log
+      await logAudit(ctx, {
+        action: 'ACTIVATE_TEAM',
+        entity: 'teams',
+        entityId: team.id,
+        oldValues: { status: oldStatus },
+        newValues: { status: team.status },
+      })
+
+      // 7. Return success response
+      return response.ok({
+        success: true,
+        message: 'Team activated successfully.',
+        data: {
+          id: team.id,
+          name: team.name,
+          status: team.status, 
+          createdAt: team.createdAt ? team.createdAt.toISO() : null,
+          updatedAt: team.updatedAt ? team.updatedAt.toISO() : null,
+        },
+      })
+    } catch (error: any) {
+      logger.error({ err: error, teamId }, `Failed to activate team: ${error?.message || error}`)
+
+      return response.internalServerError({
+        errors: [{ message: 'Failed to activate team. Please try again.' }],
+      })
+    }
+  }
+
+  /**
+   * Activate a team by ID (requires 2FA OTP)
+   */
+  async deactivateTeam(ctx: HttpContext) {
+    const { params, request, response, auth } = ctx
+    const teamId = params.id
+
+    try {
+      // 1. Fetch target team
+      const team = await Team.query()
+        .where('id', teamId)
+        .withCount('members')
+        .preload('members', (userQuery) => {
+          userQuery
+            .select(['id', 'email', 'role', 'accountType', 'status', 'createdAt'])
+            .preload('adminProfile', (profileQuery) => {
+              profileQuery.select(['firstName', 'lastName', 'phone', 'avatar'])
+            })
+        })
+        .first()
+
+      if (!team) {
+        return response.notFound({
+          errors: [{ message: 'Team not found.' }],
+        })
+      }
+
+      // 2. Check if team is already inactive
+      if (team.status === 'inactive') {
+        return response.badRequest({
+          errors: [{ message: 'Team is already inactive.' }],
+        })
+      }
+
+      // 3. Validate requesting admin's 2FA OTP
+      const otp = request.input('otp')
+      if (!otp || otp.trim() === '') {
+        return response.badRequest({
+          errors: [{ message: 'Please enter OTP.' }],
+        })
+      }
+
+      const admin = auth.user! as User
+      if (
+        !admin.otpToken ||
+        admin.otpToken !== otp ||
+        !admin.otpTokenExpiresAt ||
+        admin.otpTokenExpiresAt < DateTime.now()
+      ) {
+        return response.badRequest({
+          errors: [{ message: 'Invalid or expired OTP.' }],
+        })
+      }
+
+      // 4. Invalidate admin OTP token after successful validation
+      admin.otpToken = null
+      admin.otpTokenExpiresAt = null
+      await admin.save()
+
+      // 5. Update team status to inactive
+      const oldStatus = team.status
+      team.status = 'inactive'
+      await team.save()
+
+      // 6. Record Audit Log
+      await logAudit(ctx, {
+        action: 'DEACTIVATE_TEAM',
+        entity: 'teams',
+        entityId: team.id,
+        oldValues: { status: oldStatus },
+        newValues: { status: team.status },
+      })
+
+      // 7. Return success response
+      return response.ok({
+        success: true,
+        message: 'Team deactivated successfully.',
+        data: {
+          id: team.id,
+          name: team.name,
+          status: team.status, 
+          createdAt: team.createdAt ? team.createdAt.toISO() : null,
+          updatedAt: team.updatedAt ? team.updatedAt.toISO() : null,
+        },
+      })
+    } catch (error: any) {
+      logger.error({ err: error, teamId }, `Failed to activate team: ${error?.message || error}`)
+
+      return response.internalServerError({
+        errors: [{ message: 'Failed to deactivate team. Please try again.' }],
+      })
+    }
+  }
+
+  /**
    * List all admin/staff users (where role is NOT 'customer')
    * Supports pagination, filtering by status, and searching by email
    */
@@ -431,4 +619,292 @@ export default class TeamManagementController {
       })
     }
   }
+
+  /**
+   * View details of a single admin/staff user (where role is NOT 'customer') by ID
+   */
+  async showTeamMember({ params, response }: HttpContext) {
+    const targetUserId = params.id
+
+    try {
+      // 1. Fetch target staff member with team and adminProfile relations
+      const user = await User.query()
+        .where('id', targetUserId)
+        .whereNot('role', 'customer')
+        .preload('team', (teamQuery) => {
+          teamQuery.select(['id', 'name'])
+        })
+        .preload('adminProfile', (profileQuery) => {
+          profileQuery.select(['firstName', 'lastName', 'phone', 'avatar'])
+        })
+        .first()
+
+      if (!user) {
+        return response.notFound({
+          errors: [{ message: 'Team member account not found.' }],
+        })
+      }
+
+      // 2. Return team member details
+      return response.ok({
+        success: true,
+        data: {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+          accountType: user.accountType,
+          status: user.status,
+          isEmailVerified: user.isEmailVerified,
+          team: user.team
+            ? {
+                id: user.team.id,
+                name: user.team.name,
+              }
+            : null,
+          profile: user.adminProfile
+            ? {
+                firstName: user.adminProfile.firstName,
+                lastName: user.adminProfile.lastName,
+                phone: user.adminProfile.phone,
+                avatar: user.adminProfile.avatar,
+              }
+            : null,
+          createdAt: user.createdAt ? user.createdAt.toISO() : null,
+          updatedAt: user.updatedAt ? user.updatedAt.toISO() : null,
+        },
+      })
+    } catch (error: any) {
+      logger.error(
+        { err: error, targetUserId },
+        `Failed to fetch team member details: ${error?.message || error}`
+      )
+
+      return response.internalServerError({
+        errors: [{ message: 'Failed to retrieve team member details. Please try again.' }],
+      })
+    }
+  }
+
+  /**
+   * Activate an admin/staff user (where role is NOT 'customer') by ID
+   */
+  async activateTeamMember(ctx: HttpContext) {
+    const { params, request, response, auth } = ctx
+    const targetUserId = params.id
+
+    try {
+      // 1. Find target staff member by ID (ensuring role is not 'customer')
+      const user = await User.query()
+        .where('id', targetUserId)
+        .whereNot('role', 'customer')
+        .preload('team', (teamQuery) => {
+          teamQuery.select(['id', 'name'])
+        })
+        .preload('adminProfile', (profileQuery) => {
+          profileQuery.select(['firstName', 'lastName', 'phone', 'avatar'])
+        })
+        .first()
+
+      if (!user) {
+        return response.notFound({
+          errors: [{ message: 'Team member account not found.' }],
+        })
+      }
+
+      // 2. Check if user is already active
+      if (user.status === 'active') {
+        return response.badRequest({
+          errors: [{ message: 'Team member account is already active.' }],
+        })
+      }
+
+      // 3. Validate requesting admin's 2FA OTP
+      const otp = request.input('otp')
+      if (!otp || otp.trim() === '') {
+        return response.badRequest({
+          errors: [{ message: 'Please enter OTP.' }],
+        })
+      }
+
+      const admin = auth.user! as User
+      if (
+        !admin.otpToken ||
+        admin.otpToken !== otp ||
+        !admin.otpTokenExpiresAt ||
+        admin.otpTokenExpiresAt < DateTime.now()
+      ) {
+        return response.badRequest({ errors: [{ message: 'Invalid or expired OTP.' }] })
+      }
+
+      // 4. Consume/invalidate admin OTP token after successful validation
+      admin.otpToken = null
+      admin.otpTokenExpiresAt = null
+      await admin.save()
+
+      // 5. Update target user status to active
+      const oldStatus = user.status
+      user.status = 'active'
+      await user.save()
+
+      // 6. Record Audit Log
+      await logAudit(ctx, {
+        action: 'ACTIVATE_TEAM_MEMBER',
+        entity: 'users',
+        entityId: user.id,
+        oldValues: { status: oldStatus },
+        newValues: { status: user.status },
+      })
+
+      // 7. Return success response with updated member details
+      return response.ok({
+        success: true,
+        message: 'Team member activated successfully.',
+        data: {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+          accountType: user.accountType,
+          status: user.status,
+          isEmailVerified: user.isEmailVerified,
+          team: user.team
+            ? {
+                id: user.team.id,
+                name: user.team.name,
+              }
+            : null,
+          profile: user.adminProfile
+            ? {
+                firstName: user.adminProfile.firstName,
+                lastName: user.adminProfile.lastName,
+                phone: user.adminProfile.phone,
+                avatar: user.adminProfile.avatar,
+              }
+            : null,
+          createdAt: user.createdAt ? user.createdAt.toISO() : null,
+          updatedAt: user.updatedAt ? user.updatedAt.toISO() : null,
+        },
+      })
+    } catch (error: any) {
+      logger.error(
+        { err: error, targetUserId },
+        `Failed to activate team member: ${error?.message || error}`
+      )
+
+      return response.internalServerError({
+        errors: [{ message: 'Failed to activate team member. Please try again.' }],
+      })
+    }
+  }
+
+  /**
+   * Deactivate an admin/staff user (where role is NOT 'customer') by ID
+   */
+  async dectivateTeamMember(ctx: HttpContext) {
+    const { params, request, response, auth } = ctx
+    const targetUserId = params.id
+
+    try {
+      // 1. Find target staff member by ID (ensuring role is not 'customer')
+      const user = await User.query()
+        .where('id', targetUserId)
+        .whereNot('role', 'customer')
+        .preload('team', (teamQuery) => {
+          teamQuery.select(['id', 'name'])
+        })
+        .preload('adminProfile', (profileQuery) => {
+          profileQuery.select(['firstName', 'lastName', 'phone', 'avatar'])
+        })
+        .first()
+
+      if (!user) {
+        return response.notFound({
+          errors: [{ message: 'Team member account not found.' }],
+        })
+      }
+
+      // 2. Check if user is already blocked
+      if (user.status === 'blocked') {
+        return response.badRequest({
+          errors: [{ message: 'Team member account is already blocked.' }],
+        })
+      }
+
+      // 3. Validate requesting admin's 2FA OTP
+      const otp = request.input('otp')
+      if (!otp || otp.trim() === '') {
+        return response.badRequest({
+          errors: [{ message: 'Please enter OTP.' }],
+        })
+      }
+
+      const admin = auth.user! as User
+      if (
+        !admin.otpToken ||
+        admin.otpToken !== otp ||
+        !admin.otpTokenExpiresAt ||
+        admin.otpTokenExpiresAt < DateTime.now()
+      ) {
+        return response.badRequest({ errors: [{ message: 'Invalid or expired OTP.' }] })
+      }
+
+      // 4. Consume/invalidate admin OTP token after successful validation
+      admin.otpToken = null
+      admin.otpTokenExpiresAt = null
+      await admin.save()
+
+      // 5. Update target user status to active
+      const oldStatus = user.status
+      user.status = 'blocked'
+      await user.save()
+
+      // 6. Record Audit Log
+      await logAudit(ctx, {
+        action: 'BLOCKED_TEAM_MEMBER',
+        entity: 'users',
+        entityId: user.id,
+        oldValues: { status: oldStatus },
+        newValues: { status: user.status },
+      })
+
+      // 7. Return success response with updated member details
+      return response.ok({
+        success: true,
+        message: 'Team member blocked successfully.',
+        data: {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+          accountType: user.accountType,
+          status: user.status,
+          isEmailVerified: user.isEmailVerified,
+          team: user.team
+            ? {
+                id: user.team.id,
+                name: user.team.name,
+              }
+            : null,
+          profile: user.adminProfile
+            ? {
+                firstName: user.adminProfile.firstName,
+                lastName: user.adminProfile.lastName,
+                phone: user.adminProfile.phone,
+                avatar: user.adminProfile.avatar,
+              }
+            : null,
+          createdAt: user.createdAt ? user.createdAt.toISO() : null,
+          updatedAt: user.updatedAt ? user.updatedAt.toISO() : null,
+        },
+      })
+    } catch (error: any) {
+      logger.error(
+        { err: error, targetUserId },
+        `Failed to deactivate team member: ${error?.message || error}`
+      )
+
+      return response.internalServerError({
+        errors: [{ message: 'Failed to deactivate team member. Please try again.' }],
+      })
+    }
+  }
+  
 }
