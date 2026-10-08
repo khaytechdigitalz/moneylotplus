@@ -28,4 +28,6 @@ export default class Team extends BaseModel {
     foreignKey: 'teamId',
   })
   declare members: HasMany<typeof User>
+
+
 }

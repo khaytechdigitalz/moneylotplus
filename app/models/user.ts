@@ -13,6 +13,7 @@ import UserBusinessProfile from '#models/user_business_profile'
 import UserAdminProfile from '#models/user_admin_profile'
 import UsersComplianceAssessment from '#models/users_compliance_assessment' 
 import Team from '#models/team'
+import Role from './role.ts'
 
 // 1. Configure AuthFinder with a hashing strategy and matching fields
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
@@ -33,6 +34,8 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @belongsTo(() => Team)
   declare team: BelongsTo<typeof Team>
 
+  @belongsTo(() => Role)
+  declare role: BelongsTo<typeof Role>
 
   @column({ isPrimary: true })
   declare id: number
@@ -53,7 +56,7 @@ export default class User extends compose(BaseModel, AuthFinder) {
   declare accountType: 'individual' | 'business' | 'admin'
 
   @column()
-  declare role: 'admin' | 'customer' | 'team'
+  declare userType: 'admin' | 'customer' | 'team'
 
   @column()
   declare status: 'active' | 'blocked' | 'pending'

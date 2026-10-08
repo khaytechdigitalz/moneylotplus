@@ -62,9 +62,18 @@ export default class AdminComplianceController {
       }
 
       // 2. Calculate Summary KPI Aggregates strictly for role = 'customer' with Date Filters
-      const [totalCount, pendingCount, approvedCount, declinedCount] = await Promise.all([
+      const [totalCount, totalNewCount, pendingCount, approvedCount, declinedCount] = await Promise.all([
         // Total Registered Customers
         User.query().where('role', 'customer').if(true, applyDateFilter).count('* as total'),
+
+        // Total New Customers registered today
+        User.query()
+          .where('role', 'customer')
+          .whereBetween('created_at', [
+            DateTime.now().startOf('day').toSQL(),
+            DateTime.now().endOf('day').toSQL()
+          ])
+          .count('* as total'),
 
         // Pending Approval Users
         User.query()
@@ -181,6 +190,7 @@ export default class AdminComplianceController {
         success: true,
         summary: {
           total_registered_customers: Number(totalCount[0].$extras.total || 0),
+          total_new_users: Number(totalNewCount[0].$extras.total || 0),
           pending_approval_users: Number(pendingCount[0].$extras.total || 0),
           approved_kyc_users: Number(approvedCount[0].$extras.total || 0),
           rejected_kyc_users: Number(declinedCount[0].$extras.total || 0),

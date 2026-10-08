@@ -56,8 +56,8 @@ export default class TeamManagementController {
       email: payload.email,
       teamId: team.id,
       roleId: role.id,
-      role: 'team',
       accountType: 'admin',
+      userType: 'team',
       password: 'not_set',
       status: 'pending',
       isEmailVerified: false,
@@ -102,6 +102,7 @@ export default class TeamManagementController {
         roleId: role.id,
         roleName: role.name,
         accountType: adminUser.accountType,
+        userType: adminUser.userType,
         status: adminUser.status,
       },
     })
@@ -122,6 +123,7 @@ export default class TeamManagementController {
           name: role.name,
         },
         accountType: adminUser.accountType,
+        userType: adminUser.userType,
         status: adminUser.status,
         createdAt: adminUser.createdAt ? adminUser.createdAt.toISO() : null,
       },
@@ -154,6 +156,7 @@ export default class TeamManagementController {
         id: team.id,
         name: team.name,
         description: team.description,
+        status: team.status,
         totalMembers: Number(team.$extras.members_count || 0),
         createdAt: team.createdAt ? team.createdAt.toISO() : null,
         updatedAt: team.updatedAt ? team.updatedAt.toISO() : null,
@@ -325,11 +328,11 @@ export default class TeamManagementController {
         data: {
           id: team.id,
           name: team.name,
+          status: team.status,
           totalMembers: Number(team.$extras.members_count || 0),
           members: team.members.map((member) => ({
             id: member.id,
             email: member.email,
-            role: member.role,
             status: member.status,
             profile: member.adminProfile
               ? {
@@ -554,9 +557,12 @@ export default class TeamManagementController {
       const search = request.input('search') // e.g. email or profile search
 
       const usersQuery = User.query()
-        .whereNot('role', 'customer')
+        .where('userType', 'team')
         .preload('team', (teamQuery) => {
           teamQuery.select(['id', 'name'])
+        })
+         .preload('role', (roleQuery) => {
+          roleQuery.select(['id', 'name']) 
         })
         .preload('adminProfile', (profileQuery) => {
           profileQuery.select(['firstName', 'lastName', 'phone', 'avatar'])
@@ -588,7 +594,6 @@ export default class TeamManagementController {
         data: users.all().map((user) => ({
           id: user.id,
           email: user.email,
-          role: user.role,
           accountType: user.accountType,
           status: user.status,
           isEmailVerified: user.isEmailVerified,
@@ -596,6 +601,12 @@ export default class TeamManagementController {
             ? {
                 id: user.team.id,
                 name: user.team.name,
+              }
+            : null,
+          role: user.role
+            ? {
+                id: user.role.id,
+                name: user.role.name,
               }
             : null,
           profile: user.adminProfile
@@ -630,9 +641,12 @@ export default class TeamManagementController {
       // 1. Fetch target staff member with team and adminProfile relations
       const user = await User.query()
         .where('id', targetUserId)
-        .whereNot('role', 'customer')
+        .where('userType', 'team') // Ensure role is not 'customer'
         .preload('team', (teamQuery) => {
           teamQuery.select(['id', 'name'])
+        })
+        .preload('role', (roleQuery) => {
+          roleQuery.select(['id', 'name']) 
         })
         .preload('adminProfile', (profileQuery) => {
           profileQuery.select(['firstName', 'lastName', 'phone', 'avatar'])
@@ -651,7 +665,6 @@ export default class TeamManagementController {
         data: {
           id: user.id,
           email: user.email,
-          role: user.role,
           accountType: user.accountType,
           status: user.status,
           isEmailVerified: user.isEmailVerified,
@@ -659,6 +672,12 @@ export default class TeamManagementController {
             ? {
                 id: user.team.id,
                 name: user.team.name,
+              }
+            : null,
+          role: user.role
+            ? {
+                id: user.role.id,
+                name: user.role.name,
               }
             : null,
           profile: user.adminProfile

@@ -22,7 +22,7 @@ export default class MfaMiddleware {
 
     // 3. Guard Check: Verify that 2FA is active
     // Adjust 'isTwoFactorEnabled' to match your actual User model property name
-    if (user.role !== 'admin') {
+    if (user.accountType !== 'admin') {
       return ctx.response.forbidden({
         errors: [{ message: 'Access denied. Admin Authentication must be enabled to access this resource.',mfa: false }]
       })

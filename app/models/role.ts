@@ -32,4 +32,5 @@ export default class Role extends BaseModel {
     pivotTable: 'role_permissions',
   })
   declare permissions: ManyToMany<typeof Permission>
+  
 }

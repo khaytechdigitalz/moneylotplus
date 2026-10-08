@@ -72,7 +72,7 @@ export default class AdminAuthController {
     }
 
     // Check Admin Privileges
-    if (!['admin', 'team'].includes(user.role) && user.accountType !== 'admin') {
+    if (!['admin', 'team'].includes(user.userType) && user.accountType !== 'admin') {
       return response.forbidden({
         errors: [{ message: 'Access denied. Account lacks administrative privileges.' }],
       })
@@ -210,7 +210,7 @@ export default class AdminAuthController {
     }
 
     // Ensure admin privilege
-    if (user.role !== 'admin' && user.accountType !== 'admin') {
+    if (user.accountType !== 'admin') {
       return response.forbidden({
         errors: [{ message: 'Access denied. Account lacks administrative privileges.' }],
       })
@@ -297,7 +297,7 @@ export default class AdminAuthController {
     const payload = await request.validateUsing(sendOtpValidator)
 
     const user = await User.findBy('email', payload.email)
-    if (!user || (user.role !== 'admin' && user.accountType !== 'admin')) {
+    if (!user || ( user.accountType !== 'admin')) {
       return response.ok({
         success: true,
         message: 'If an admin account exists with this email, a reset code has been sent.',
@@ -340,7 +340,7 @@ export default class AdminAuthController {
     const payload = await request.validateUsing(verifyOtpValidator)
 
     const user = await User.findBy('email', payload.email)
-    if (!user || (user.role !== 'admin' && user.accountType !== 'admin')) {
+    if (!user || (user.accountType !== 'admin')) {
       return response.badRequest({ errors: [{ message: 'Invalid or expired OTP.' }] })
     }
 
@@ -366,7 +366,7 @@ export default class AdminAuthController {
     const payload = await request.validateUsing(resetPasswordValidator)
 
     const user = await User.findBy('email', payload.email)
-    if (!user || (user.role !== 'admin' && user.accountType !== 'admin')) {
+    if (!user || ( user.accountType !== 'admin')) {
       return response.badRequest({ errors: [{ message: 'Invalid request.' }] })
     }
 
