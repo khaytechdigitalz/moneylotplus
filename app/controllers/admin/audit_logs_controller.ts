@@ -20,7 +20,7 @@ export default class AuditLogsController {
 
       const query = AuditLog.query()
         .preload('user', (userQuery) => {
-          userQuery.select(['id', 'email', 'role']).preload('adminProfile', (profileQuery) => {
+          userQuery.select(['id', 'email', 'accountType']).preload('adminProfile', (profileQuery) => {
             profileQuery.select(['firstName', 'lastName', 'avatar'])
           })
         })
@@ -81,7 +81,7 @@ export default class AuditLogsController {
             ? {
                 id: log.user.id,
                 email: log.user.email,
-                role: log.user.role,
+                userType: log.user.accountType,
                 name: log.user.adminProfile
                   ? `${log.user.adminProfile.firstName || ''} ${log.user.adminProfile.lastName || ''}`.trim()
                   : null,
@@ -113,7 +113,7 @@ export default class AuditLogsController {
       const log = await AuditLog.query()
         .where('id', id)
         .preload('user', (userQuery) => {
-          userQuery.select(['id', 'email', 'role']).preload('adminProfile', (profileQuery) => {
+          userQuery.select(['id', 'email', 'accountType']).preload('adminProfile', (profileQuery) => {
             profileQuery.select(['firstName', 'lastName', 'avatar', 'phone'])
           })
         })
@@ -138,7 +138,6 @@ export default class AuditLogsController {
             ? {
                 id: log.user.id,
                 email: log.user.email,
-                role: log.user.role,
                 name: log.user.adminProfile
                   ? `${log.user.adminProfile.firstName || ''} ${log.user.adminProfile.lastName || ''}`.trim()
                   : null,

@@ -189,7 +189,7 @@ export default class AdminAuthController {
       admin: {
         id: user.id,
         email: user.email,
-        role: user.role || user.accountType,
+        userType: user.accountType,
       },
     })
   }
@@ -285,7 +285,7 @@ export default class AdminAuthController {
       admin: {
         id: user.id,
         email: user.email,
-        role: user.role || user.accountType,
+        userType: user.accountType,
       },
     })
   }
@@ -401,7 +401,7 @@ export default class AdminAuthController {
       admin: {
         id: admin.id,
         email: admin.email,
-        role: admin.role || admin.accountType,
+        userType: admin.accountType,
       },
     })
   }

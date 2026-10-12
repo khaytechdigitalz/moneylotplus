@@ -310,7 +310,7 @@ export default class TeamManagementController {
         .withCount('members')
         .preload('members', (userQuery) => {
           userQuery
-            .select(['id', 'email', 'role', 'accountType', 'status', 'createdAt'])
+            .select(['id', 'email',  'accountType', 'status', 'createdAt'])
             .preload('adminProfile', (profileQuery) => {
               profileQuery.select(['firstName', 'lastName', 'phone', 'avatar'])
             })
@@ -371,7 +371,7 @@ export default class TeamManagementController {
         .withCount('members')
         .preload('members', (userQuery) => {
           userQuery
-            .select(['id', 'email', 'role', 'accountType', 'status', 'createdAt'])
+            .select(['id', 'email',  'accountType', 'status', 'createdAt'])
             .preload('adminProfile', (profileQuery) => {
               profileQuery.select(['firstName', 'lastName', 'phone', 'avatar'])
             })
@@ -465,7 +465,7 @@ export default class TeamManagementController {
         .withCount('members')
         .preload('members', (userQuery) => {
           userQuery
-            .select(['id', 'email', 'role', 'accountType', 'status', 'createdAt'])
+            .select(['id', 'email',  'accountType', 'status', 'createdAt'])
             .preload('adminProfile', (profileQuery) => {
               profileQuery.select(['firstName', 'lastName', 'phone', 'avatar'])
             })

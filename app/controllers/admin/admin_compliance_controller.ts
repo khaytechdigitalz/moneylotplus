@@ -16,6 +16,7 @@ export default class AdminComplianceController {
     const limit = request.input('limit', 10)
     const statusFilter = request.input('status') || request.input('complianceStatus') // Handles 'pending', 'approved', 'declined'
     const searchQuery = request.input('search')
+    const accountType = request.input('account_type')
 
     // Time filter inputs: 'today' | 'yesterday' | '7days' | '30days' | 'custom'
     const period = request.input('period')
@@ -61,14 +62,14 @@ export default class AdminComplianceController {
         }
       }
 
-      // 2. Calculate Summary KPI Aggregates strictly for role = 'customer' with Date Filters
+      // 2. Calculate Summary KPI Aggregates strictly for userType = 'customer' with Date Filters
       const [totalCount, totalNewCount, pendingCount, approvedCount, declinedCount] = await Promise.all([
         // Total Registered Customers
-        User.query().where('role', 'customer').if(true, applyDateFilter).count('* as total'),
+        User.query().where('userType', 'customer').if(true, applyDateFilter).count('* as total'),
 
         // Total New Customers registered today
         User.query()
-          .where('role', 'customer')
+          .where('userType', 'customer')
           .whereBetween('created_at', [
             DateTime.now().startOf('day').toSQL(),
             DateTime.now().endOf('day').toSQL()
@@ -77,7 +78,7 @@ export default class AdminComplianceController {
 
         // Pending Approval Users
         User.query()
-          .where('role', 'customer')
+          .where('userType', 'customer')
           .if(true, applyDateFilter)
           .where((q) => {
             q.whereHas('individualProfile', (ip) => {
@@ -90,7 +91,7 @@ export default class AdminComplianceController {
 
         // Approved KYC Users
         User.query()
-          .where('role', 'customer')
+          .where('userType', 'customer')
           .if(true, applyDateFilter)
           .where((q) => {
             q.whereHas('individualProfile', (ip) => {
@@ -103,7 +104,7 @@ export default class AdminComplianceController {
 
         // Declined KYC Users
         User.query()
-          .where('role', 'customer')
+          .where('userType', 'customer')
           .if(true, applyDateFilter)
           .where((q) => {
             q.whereHas('individualProfile', (ip) => {
@@ -117,7 +118,7 @@ export default class AdminComplianceController {
 
       // 3. Build Query for Customer List
       const usersQuery = User.query()
-        .where('role', 'customer')
+        .where('userType', 'customer')
         .preload('individualProfile', (profileQuery) => {
           profileQuery.select(['firstName', 'lastName', 'complianceStatus'])
         })
@@ -155,6 +156,11 @@ export default class AdminComplianceController {
                 .orWhereILike('representativeFullName', `%${searchQuery}%`)
             })
         })
+      }
+
+      // Optional search query by account_type
+      if (accountType) {
+        usersQuery.where('account_type', accountType)
       }
 
       // Fetch paginated customer records
@@ -229,7 +235,7 @@ export default class AdminComplianceController {
       // 1. Fetch User with Profile Relationships
       const user = await User.query()
         .where('id', userId)
-        .where('role', 'customer')
+        .where('userType', 'customer')
         .preload('individualProfile')
         .preload('businessProfile')
         .first()
@@ -317,7 +323,7 @@ export default class AdminComplianceController {
             id: user.id,
             email: user.email,
             accountType: user.accountType,
-            role: user.role,
+            userType: user.userType,
             status: user.status,
             complianceStatus,
             complianceStep: isIndividual ? individual?.complianceStep : business?.complianceStep,
@@ -349,7 +355,7 @@ export default class AdminComplianceController {
       // 1. Fetch User with Compliance Assessment & Profiles
       const user = await User.query()
         .where('id', userId)
-        .where('role', 'customer')
+        .where('userType', 'customer')
         .preload('individualProfile')
         .preload('businessProfile')
         .preload('complianceAssessment')
@@ -477,7 +483,7 @@ export default class AdminComplianceController {
       // 1. Fetch User with Profiles
       const user = await User.query()
         .where('id', userId)
-        .where('role', 'customer')
+        .where('userType', 'customer')
         .preload('individualProfile')
         .preload('businessProfile')
         .first()
@@ -573,7 +579,7 @@ export default class AdminComplianceController {
       // 1. Fetch User with Profiles
       const user = await User.query()
         .where('id', userId)
-        .where('role', 'customer')
+        .where('userType', 'customer')
         .preload('individualProfile')
         .preload('businessProfile')
         .first()
@@ -666,7 +672,7 @@ export default class AdminComplianceController {
     try {
       const user = await User.query()
         .where('id', userId)
-        .where('role', 'customer')
+        .where('userType', 'customer')
         .preload('individualProfile')
         .preload('businessProfile')
         .first()
@@ -760,7 +766,7 @@ export default class AdminComplianceController {
     try {
       const user = await User.query()
         .where('id', userId)
-        .where('role', 'customer')
+        .where('userType', 'customer')
         .preload('individualProfile')
         .preload('businessProfile')
         .first()
@@ -846,7 +852,7 @@ export default class AdminComplianceController {
     try {
       const user = await User.query()
         .where('id', userId)
-        .where('role', 'customer')
+        .where('userType', 'customer')
         .preload('individualProfile')
         .preload('businessProfile')
         .first()

@@ -25,7 +25,6 @@ export default class AdminProfileController {
         data: {
           id: user.id,
           email: user.email,
-          role: user.role,
           accountType: user.accountType,
           status: user.status,
           profile: profile

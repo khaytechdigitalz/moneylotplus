@@ -16,7 +16,6 @@ export default class AdminInvitationController {
     try {
       const user = await User.query()
         .where('otpToken', token)
-        .where('role', 'admin')
         .where('accountType', 'admin')
         .where('status', 'pending')
         .where('is_email_verified', 0)
@@ -32,7 +31,6 @@ export default class AdminInvitationController {
         success: true,
         data: {
           email: user.email,
-          role: user.role,
           accountType: user.accountType,
           status: user.status,
         },
@@ -55,7 +53,7 @@ export default class AdminInvitationController {
       // Find user by token
       const user = await User.query()
         .where('otpToken', payload.token)
-        .where('role', 'admin')
+        .where('accountType', 'admin')
         .first()
 
       if (!user) {
@@ -129,7 +127,7 @@ export default class AdminInvitationController {
       const user = await User.query()
         .where('email', payload.email)
         .where('otpToken', payload.otp)
-        .where('role', 'admin')
+        .where('accountType', 'admin')
         .first()
 
       if (!user) {
