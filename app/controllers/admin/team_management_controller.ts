@@ -143,6 +143,112 @@ export default class TeamManagementController {
   }
 }
 
+/**
+   * Resend invitation email to a pending team member by user ID
+   */
+  async resendInvite(ctx: HttpContext) {
+    const { request, response } = ctx
+  
+    const targetUserId = request.input('member_id')
+
+    try {
+      // 1. Find the target user and ensure they are an admin/staff with a 'pending' status
+      const adminUser = await User.query()
+        .where('id', targetUserId)
+        .where('status', 'pending')
+        .preload('team')
+        .preload('role') // assuming relation name for Role model is roleRef, adjust if just role
+        .first()
+
+      if (!adminUser) {
+        return response.notFound({
+          errors: [{ message: 'Pending team member account not found.' }],
+        })
+      }
+
+      // 2. Ensure team and role associations exist
+      const team = adminUser.team
+      const role = await adminUser.related('role').query().first() // or adminUser.role if stored directly
+
+      if (!team) {
+        return response.badRequest({
+          errors: [{ message: 'Associated team not found for this user.' }],
+        })
+      }
+
+      // 3. Generate a new secure OTP token and timestamp
+      const otpToken = crypto.randomBytes(32).toString('hex')
+      const tokenSentAt = DateTime.now()
+
+      adminUser.otpToken = otpToken
+      adminUser.otpTokenSentAt = tokenSentAt
+      await adminUser.save()
+
+      // 4. Construct invite URL and resend email
+      const baseUrl = process.env.ADMIN_PORTAL_URL || '#'
+      const inviteUrl = `${baseUrl}/accept-invitation?token=${otpToken}&email=${encodeURIComponent(adminUser.email)}`
+
+      try {
+        await mail.send((message) => {
+          message
+            .to(adminUser.email)
+            .subject('Reminder: You have been invited to join MoneyLot Admin Portal')
+            .htmlView('emails/admin_invitation', {
+              user: adminUser,
+              teamName: team.name,
+              roleName: role ? role.name : 'Team Member',
+              otpToken: otpToken,
+              inviteUrl: inviteUrl,
+            })
+        })
+      } catch (mailError: any) {
+        logger.error(
+          { err: mailError, userId: adminUser.id },
+          'Failed to resend invitation email.'
+        )
+        return response.internalServerError({
+          errors: [{ message: 'Failed to resend invitation email. Please try again.' }],
+        })
+      }
+
+      // 5. Record Audit Log
+      await logAudit(ctx, {
+        action: 'RESEND_ADMIN_INVITE',
+        entity: 'users',
+        entityId: adminUser.id,
+        oldValues: null,
+        newValues: {
+          email: adminUser.email,
+          teamId: team.id,
+          teamName: team.name,
+          status: adminUser.status,
+        },
+      })
+
+      // 6. Return success response
+      return response.ok({
+        success: true,
+        message: `Invitation email resent successfully to ${adminUser.email}.`,
+        data: {
+          id: adminUser.id,
+          email: adminUser.email,
+          team: {
+            id: team.id,
+            name: team.name,
+          },
+          status: adminUser.status,
+          updatedAt: adminUser.updatedAt ? adminUser.updatedAt.toISO() : null,
+        },
+      })
+    } catch (error: any) {
+      logger.error({ err: error, targetUserId }, `Failed to resend admin invitation: ${error?.message || error}`)
+
+      return response.internalServerError({
+        errors: [{ message: 'Failed to resend invitation. Please try again.' }],
+      })
+    }
+  }
+
   /**
    * 2. List all teams with total member counts
    */
@@ -328,6 +434,7 @@ export default class TeamManagementController {
         data: {
           id: team.id,
           name: team.name,
+          description: team.description,
           status: team.status,
           totalMembers: Number(team.$extras.members_count || 0),
           members: team.members.map((member) => ({
@@ -342,7 +449,7 @@ export default class TeamManagementController {
                   avatar: member.adminProfile.avatar,
                 }
               : null,
-            joinedAt: member.createdAt ? member.createdAt.toISO() : null,
+            createdAt: member.createdAt ? member.createdAt.toISO() : null,
           })),
           createdAt: team.createdAt ? team.createdAt.toISO() : null,
           updatedAt: team.updatedAt ? team.updatedAt.toISO() : null,

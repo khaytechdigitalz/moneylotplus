@@ -46,8 +46,8 @@ export default class RoleManagementController {
     }
   }
 
-  /**
-   * 2. List all roles with attached team & permissions count
+/**
+   * 2. List all roles with attached team, permissions count, and users count
    */
   async listRoles({ request, response }: HttpContext) {
     try {
@@ -59,6 +59,7 @@ export default class RoleManagementController {
       const query = Role.query()
         .preload('team', (t) => t.select(['id', 'name']))
         .withCount('permissions')
+        .withCount('users') 
         .orderBy('createdAt', 'desc')
 
       if (teamId) {
@@ -84,6 +85,7 @@ export default class RoleManagementController {
               }
             : null,
           totalPermissions: Number(role.$extras.permissions_count || 0),
+          totalMembers: Number(role.$extras.users_count || 0),
           createdAt: role.createdAt ? role.createdAt.toISO() : null,
           updatedAt: role.updatedAt ? role.updatedAt.toISO() : null,
         })),
@@ -193,6 +195,7 @@ export default class RoleManagementController {
         .where('id', id)
         .preload('team', (t) => t.select(['id', 'name']))
         .preload('permissions')
+        .withCount('users') 
         .first()
 
       if (!role) {
@@ -208,6 +211,7 @@ export default class RoleManagementController {
           name: role.name,
           status: role.status,
           team: role.team ? { id: role.team.id, name: role.team.name } : null,
+          totalMembers: Number(role.$extras.users_count || 0),
           permissions: role.permissions.map((p) => ({
             id: p.id,
             module: p.module,

@@ -17,6 +17,12 @@ export interface ApiDefinition {
     acceptInvite: typeof routes['admin_invitation.accept_invite']
     verifyOtp: typeof routes['admin_invitation.verify_otp']
   }
+  mfa: {
+    configure: typeof routes['mfa.configure']
+    verifyNow: typeof routes['mfa.verify_now']
+    setup: typeof routes['mfa.setup']
+    verifyAndEnable: typeof routes['mfa.verify_and_enable']
+  }
   adminCompliance: {
     index: typeof routes['admin_compliance.index']
     show: typeof routes['admin_compliance.show']
@@ -44,6 +50,7 @@ export interface ApiDefinition {
     deactivateTeam: typeof routes['team_management.deactivate_team']
     updateTeam: typeof routes['team_management.update_team']
     invite: typeof routes['team_management.invite']
+    resendInvite: typeof routes['team_management.resend_invite']
   }
   roleManagement: {
     listPermissions: typeof routes['role_management.list_permissions']
@@ -80,10 +87,6 @@ export interface ApiDefinition {
       resetPassword: typeof routes['auth.forgot_passwords.reset_password']
     }
     verifyEmail: typeof routes['auth.verify_email']
-  }
-  mfa: {
-    setup: typeof routes['mfa.setup']
-    verifyAndEnable: typeof routes['mfa.verify_and_enable']
   }
   accessTokens: {
     destroy: typeof routes['access_tokens.destroy']

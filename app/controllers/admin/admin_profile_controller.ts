@@ -9,11 +9,28 @@ import { logAudit } from '#services/audit_service'
 
 export default class AdminProfileController {
   /**
-   * 1. View Current Admin Profile Details
+   * View Current Admin Profile Details
    */
   async show({ auth, response }: HttpContext) {
     try {
-      const user = auth.user!
+      const authUser = auth.user!
+
+      // Fetch User along with team and role preloaded
+      const user = await User.query()
+        .where('id', authUser.id)
+        .preload('team', (teamQuery) => {
+          teamQuery.select(['id', 'name'])
+        })
+        .preload('role', (roleQuery) => {
+          roleQuery.select(['id', 'name'])
+        })
+        .first()
+
+      if (!user) {
+        return response.notFound({
+          errors: [{ message: 'User account not found.' }],
+        })
+      }
 
       // Fetch Profile associated with the logged-in admin user
       const profile = await UserAdminProfile.query()
@@ -27,6 +44,18 @@ export default class AdminProfileController {
           email: user.email,
           accountType: user.accountType,
           status: user.status,
+          team: user.team
+            ? {
+                id: user.team.id,
+                name: user.team.name,
+              }
+            : null,
+          role: user.role
+            ? {
+                id: user.role.id,
+                name: user.role.name,
+              }
+            : null,
           profile: profile
             ? {
                 firstName: profile.firstName,

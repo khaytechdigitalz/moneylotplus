@@ -139,6 +139,30 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_auth_controller').default['logout']>>>
     }
   }
+  'mfa.configure': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/mfa/setup'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_mfas_controller').default['configure']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_mfas_controller').default['configure']>>>
+    }
+  }
+  'mfa.verify_now': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/mfa/verify'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/admin_mfas_controller').default['verifyNow']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/admin_mfas_controller').default['verifyNow']>>>
+    }
+  }
   'admin_compliance.index': {
     methods: ["GET","HEAD"]
     pattern: '/api/v1/admin/compliance/dashboard'
@@ -401,6 +425,18 @@ export interface Registry {
       query: ExtractQuery<InferInput<(typeof import('#validators/admin_management_validator').inviteAdminValidator)>>
       response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['invite']>>>
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['invite']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'team_management.resend_invite': {
+    methods: ["POST"]
+    pattern: '/api/v1/admin/team/reinvite'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['resendInvite']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/admin/team_management_controller').default['resendInvite']>>>
     }
   }
   'role_management.list_permissions': {

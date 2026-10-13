@@ -3,6 +3,7 @@ import { middleware } from '#start/kernel'
 
 const AdminAuthController = () => import('#controllers/admin/admin_auth_controller')
 const AdminComplianceController = () => import('#controllers/admin/admin_compliance_controller')
+const MfaController = () => import('#controllers/admin/admin_mfas_controller')
 const TeamManagementController = () => import('#controllers/admin/team_management_controller')
 const AdminInvitationController = () => import('#controllers/admin/admin_invitation_controller')
 const AdminProfileController = () => import('#controllers/admin/admin_profile_controller')
@@ -48,21 +49,16 @@ export function adminRoutes() {
           router.get('me', [AdminAuthController, 'me'])
           router.post('logout', [AdminAuthController, 'logout'])
 
+          // MFA
+          router.post('mfa/setup', [MfaController, 'configure'])
+          router.post('mfa/verify', [MfaController, 'verifyNow'])
+
           // Compliance Management / Dashboard
           router.get('compliance/dashboard', [AdminComplianceController, 'index'])
           router.get('compliance/account-info/:id', [AdminComplianceController, 'show'])
-          router.get('compliance/eligibility/:id', [
-            AdminComplianceController,
-            'getEligibilityAndServices',
-          ])
-          router.get('compliance/identity/:id', [
-            AdminComplianceController,
-            'getIdentityVerification',
-          ])
-          router.get('compliance/settlement/:id', [
-            AdminComplianceController,
-            'getSettlementAccount',
-          ])
+          router.get('compliance/eligibility/:id', [ AdminComplianceController, 'getEligibilityAndServices', ])
+          router.get('compliance/identity/:id', [ AdminComplianceController, 'getIdentityVerification', ])
+          router.get('compliance/settlement/:id', [ AdminComplianceController, 'getSettlementAccount', ])
           router.post('compliance/otp/push', [AdminComplianceController, 'sendComplianceOtp'])
           router.post('compliance/approve/:id', [AdminComplianceController, 'approve'])
           router.post('compliance/reject/:id', [AdminComplianceController, 'reject'])
@@ -80,13 +76,18 @@ export function adminRoutes() {
           router.get('team/members', [TeamManagementController, 'listMembers'])
           router.get('team/member/details/:id', [TeamManagementController, 'showTeamMember'])
           router.post('team/member/activate/:id', [TeamManagementController, 'activateTeamMember'])
-          router.post('team/member/deactivate/:id', [TeamManagementController, 'dectivateTeamMember'])
+          router.post('team/member/deactivate/:id', [
+            TeamManagementController,
+            'dectivateTeamMember',
+          ])
+          
           router.post('team/create', [TeamManagementController, 'createTeam'])
           router.get('team/details/:id', [TeamManagementController, 'showTeam'])
           router.post('team/activate/:id', [TeamManagementController, 'activateTeam'])
           router.post('team/deactivate/:id', [TeamManagementController, 'deactivateTeam'])
           router.post('team/update/:id', [TeamManagementController, 'updateTeam'])
           router.post('team/invite', [TeamManagementController, 'invite'])
+          router.post('team/reinvite', [TeamManagementController, 'resendInvite'])
 
           // Role & Permissions Management Routes
           router.get('roles/permissions', [RoleManagementController, 'listPermissions'])
@@ -100,7 +101,6 @@ export function adminRoutes() {
           router.get('profile', [AdminProfileController, 'show'])
           router.put('profile', [AdminProfileController, 'updateProfile'])
           router.put('profile/password', [AdminProfileController, 'updatePassword'])
-           
         })
         .use([middleware.auth(), middleware.admin()])
     })

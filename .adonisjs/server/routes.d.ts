@@ -15,6 +15,8 @@ export type ScannedRoutes = {
     'admin_invitation.verify_otp': { paramsTuple?: []; params?: {} }
     'admin_auth.me': { paramsTuple?: []; params?: {} }
     'admin_auth.logout': { paramsTuple?: []; params?: {} }
+    'mfa.configure': { paramsTuple?: []; params?: {} }
+    'mfa.verify_now': { paramsTuple?: []; params?: {} }
     'admin_compliance.index': { paramsTuple?: []; params?: {} }
     'admin_compliance.show': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin_compliance.get_eligibility_and_services': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -37,6 +39,7 @@ export type ScannedRoutes = {
     'team_management.deactivate_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.update_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.invite': { paramsTuple?: []; params?: {} }
+    'team_management.resend_invite': { paramsTuple?: []; params?: {} }
     'role_management.list_permissions': { paramsTuple?: []; params?: {} }
     'role_management.list_roles': { paramsTuple?: []; params?: {} }
     'role_management.create_role': { paramsTuple?: []; params?: {} }
@@ -87,6 +90,8 @@ export type ScannedRoutes = {
     'admin_invitation.accept_invite': { paramsTuple?: []; params?: {} }
     'admin_invitation.verify_otp': { paramsTuple?: []; params?: {} }
     'admin_auth.logout': { paramsTuple?: []; params?: {} }
+    'mfa.configure': { paramsTuple?: []; params?: {} }
+    'mfa.verify_now': { paramsTuple?: []; params?: {} }
     'admin_compliance.send_compliance_otp': { paramsTuple?: []; params?: {} }
     'admin_compliance.approve': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'admin_compliance.reject': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
@@ -98,6 +103,7 @@ export type ScannedRoutes = {
     'team_management.deactivate_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.update_team': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'team_management.invite': { paramsTuple?: []; params?: {} }
+    'team_management.resend_invite': { paramsTuple?: []; params?: {} }
     'role_management.create_role': { paramsTuple?: []; params?: {} }
     'role_management.update_role': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }
     'role_management.toggle_status': { paramsTuple: [ParamValue]; params: {'id': ParamValue} }

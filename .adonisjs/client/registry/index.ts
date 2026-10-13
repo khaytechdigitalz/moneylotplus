@@ -72,6 +72,18 @@ const routes = {
     tokens: [{"old":"/api/v1/admin/logout","type":0,"val":"api","end":""},{"old":"/api/v1/admin/logout","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/logout","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/logout","type":0,"val":"logout","end":""}],
     types: placeholder as Registry['admin_auth.logout']['types'],
   },
+  'mfa.configure': {
+    methods: ["POST"],
+    pattern: '/api/v1/admin/mfa/setup',
+    tokens: [{"old":"/api/v1/admin/mfa/setup","type":0,"val":"api","end":""},{"old":"/api/v1/admin/mfa/setup","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/mfa/setup","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/mfa/setup","type":0,"val":"mfa","end":""},{"old":"/api/v1/admin/mfa/setup","type":0,"val":"setup","end":""}],
+    types: placeholder as Registry['mfa.configure']['types'],
+  },
+  'mfa.verify_now': {
+    methods: ["POST"],
+    pattern: '/api/v1/admin/mfa/verify',
+    tokens: [{"old":"/api/v1/admin/mfa/verify","type":0,"val":"api","end":""},{"old":"/api/v1/admin/mfa/verify","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/mfa/verify","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/mfa/verify","type":0,"val":"mfa","end":""},{"old":"/api/v1/admin/mfa/verify","type":0,"val":"verify","end":""}],
+    types: placeholder as Registry['mfa.verify_now']['types'],
+  },
   'admin_compliance.index': {
     methods: ["GET","HEAD"],
     pattern: '/api/v1/admin/compliance/dashboard',
@@ -203,6 +215,12 @@ const routes = {
     pattern: '/api/v1/admin/team/invite',
     tokens: [{"old":"/api/v1/admin/team/invite","type":0,"val":"api","end":""},{"old":"/api/v1/admin/team/invite","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/team/invite","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/team/invite","type":0,"val":"team","end":""},{"old":"/api/v1/admin/team/invite","type":0,"val":"invite","end":""}],
     types: placeholder as Registry['team_management.invite']['types'],
+  },
+  'team_management.resend_invite': {
+    methods: ["POST"],
+    pattern: '/api/v1/admin/team/reinvite',
+    tokens: [{"old":"/api/v1/admin/team/reinvite","type":0,"val":"api","end":""},{"old":"/api/v1/admin/team/reinvite","type":0,"val":"v1","end":""},{"old":"/api/v1/admin/team/reinvite","type":0,"val":"admin","end":""},{"old":"/api/v1/admin/team/reinvite","type":0,"val":"team","end":""},{"old":"/api/v1/admin/team/reinvite","type":0,"val":"reinvite","end":""}],
+    types: placeholder as Registry['team_management.resend_invite']['types'],
   },
   'role_management.list_permissions': {
     methods: ["GET","HEAD"],

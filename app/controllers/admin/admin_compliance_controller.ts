@@ -14,8 +14,8 @@ export default class AdminComplianceController {
   async index({ request, response }: HttpContext) {
     const page = request.input('page', 1)
     const limit = request.input('limit', 10)
-    const statusFilter = request.input('status') || request.input('complianceStatus') // Handles 'pending', 'approved', 'declined'
-    const searchQuery = request.input('search')
+    const statusFilter = request.input('status') || request.input('statusFilter') // Handles 'pending', 'approved', 'declined'
+    const searchQuery = request.input('search') || request.input('searchQuery') 
     const accountType = request.input('account_type')
 
     // Time filter inputs: 'today' | 'yesterday' | '7days' | '30days' | 'custom'
