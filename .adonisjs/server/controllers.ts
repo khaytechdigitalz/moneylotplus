@@ -9,6 +9,7 @@ export const controllers = {
     AdminAuth: () => import('#controllers/admin/admin_auth_controller'),
     AdminCompliance: () => import('#controllers/admin/admin_compliance_controller'),
     AdminInvitation: () => import('#controllers/admin/admin_invitation_controller'),
+    AdminMfas: () => import('#controllers/admin/admin_mfas_controller'),
     AdminProfile: () => import('#controllers/admin/admin_profile_controller'),
     AuditLogs: () => import('#controllers/admin/audit_logs_controller'),
     RoleManagement: () => import('#controllers/admin/role_management_controller'),

@@ -10,14 +10,13 @@ export default class MfaController {
   async configure({ auth, response }: HttpContext) {
     try {
       const user = auth.user!
-
       // Check against our permanent column
       if (user.isTwoFactorEnabled) {
         return response.badRequest({ message: '2FA is already enabled on this account.' })
       }
 
       // Generate a cryptographically secure base32 secret
-      const secret = generateSecret()
+      const secret = generateSecret({ length: 10 })
 
       // Save the secret directly to the permanent 2FA column
       user.twoFactorSecret = secret

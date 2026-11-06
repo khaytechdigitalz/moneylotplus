@@ -110,12 +110,13 @@ export default class PersonalComplianceController {
     const activeUploads = documentFiles.filter((item) => item.file && item.file.isValid)
 
     // Optional Business Rule: Check if minimum proof requirements are met (uncomment if enforced)
-  
+  /*
     if (activeUploads.length < 1) {
       return response.badRequest({
         errors: [{ message: 'Please attach at least one document proof to proceed.' }],
       })
     }
+      */
     
 
     // 4. Spin up database transaction
