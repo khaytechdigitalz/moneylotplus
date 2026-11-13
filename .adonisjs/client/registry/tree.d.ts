@@ -111,8 +111,13 @@ export interface ApiDefinition {
     dashboard: typeof routes['dashboard.dashboard']
   }
   ibkrConnect: {
-    initiateAuth: typeof routes['ibkr_connect.initiate_auth']
-    handleCallback: typeof routes['ibkr_connect.handle_callback']
-    linkFlexService: typeof routes['ibkr_connect.link_flex_service']
+    generateToken: typeof routes['ibkr_connect.generate_token']
+    exchangeTokenForSso: typeof routes['ibkr_connect.exchange_token_for_sso']
+    createAccount: typeof routes['ibkr_connect.create_account']
+    accountStatus: typeof routes['ibkr_connect.account_status']
+    accountPendingTasks: typeof routes['ibkr_connect.account_pending_tasks']
+    accountDetails: typeof routes['ibkr_connect.account_details']
+    accountKyc: typeof routes['ibkr_connect.account_kyc']
+    continueRegistration: typeof routes['ibkr_connect.continue_registration']
   }
 }

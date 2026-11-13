@@ -76,9 +76,14 @@ export type ScannedRoutes = {
     'regulated_business_compliance.submit_step_two': { paramsTuple?: []; params?: {} }
     'regulated_business_compliance.submit_step_four': { paramsTuple?: []; params?: {} }
     'dashboard.dashboard': { paramsTuple?: []; params?: {} }
-    'ibkr_connect.initiate_auth': { paramsTuple?: []; params?: {} }
-    'ibkr_connect.handle_callback': { paramsTuple?: []; params?: {} }
-    'ibkr_connect.link_flex_service': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.generate_token': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.exchange_token_for_sso': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.create_account': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.account_status': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
+    'ibkr_connect.account_pending_tasks': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
+    'ibkr_connect.account_details': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
+    'ibkr_connect.account_kyc': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
+    'ibkr_connect.continue_registration': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
   }
   POST: {
     'admin_auth.login': { paramsTuple?: []; params?: {} }
@@ -129,7 +134,10 @@ export type ScannedRoutes = {
     'regulated_business_compliance.submit_step_one': { paramsTuple?: []; params?: {} }
     'regulated_business_compliance.submit_step_two': { paramsTuple?: []; params?: {} }
     'regulated_business_compliance.submit_step_four': { paramsTuple?: []; params?: {} }
-    'ibkr_connect.link_flex_service': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.generate_token': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.exchange_token_for_sso': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.create_account': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.continue_registration': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
   }
   GET: {
     'admin_invitation.get_invite_details': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
@@ -154,8 +162,10 @@ export type ScannedRoutes = {
     'compliance.get_step_three_status': { paramsTuple?: []; params?: {} }
     'compliance.get_ka_question': { paramsTuple?: []; params?: {} }
     'dashboard.dashboard': { paramsTuple?: []; params?: {} }
-    'ibkr_connect.initiate_auth': { paramsTuple?: []; params?: {} }
-    'ibkr_connect.handle_callback': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.account_status': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
+    'ibkr_connect.account_pending_tasks': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
+    'ibkr_connect.account_details': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
+    'ibkr_connect.account_kyc': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
   }
   HEAD: {
     'admin_invitation.get_invite_details': { paramsTuple: [ParamValue]; params: {'token': ParamValue} }
@@ -180,8 +190,10 @@ export type ScannedRoutes = {
     'compliance.get_step_three_status': { paramsTuple?: []; params?: {} }
     'compliance.get_ka_question': { paramsTuple?: []; params?: {} }
     'dashboard.dashboard': { paramsTuple?: []; params?: {} }
-    'ibkr_connect.initiate_auth': { paramsTuple?: []; params?: {} }
-    'ibkr_connect.handle_callback': { paramsTuple?: []; params?: {} }
+    'ibkr_connect.account_status': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
+    'ibkr_connect.account_pending_tasks': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
+    'ibkr_connect.account_details': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
+    'ibkr_connect.account_kyc': { paramsTuple: [ParamValue]; params: {'accountId': ParamValue} }
   }
   PUT: {
     'admin_profile.update_profile': { paramsTuple?: []; params?: {} }

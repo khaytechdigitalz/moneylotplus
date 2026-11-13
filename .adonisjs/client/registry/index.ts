@@ -438,23 +438,53 @@ const routes = {
     tokens: [{"old":"/api/v1/account/dashboard","type":0,"val":"api","end":""},{"old":"/api/v1/account/dashboard","type":0,"val":"v1","end":""},{"old":"/api/v1/account/dashboard","type":0,"val":"account","end":""},{"old":"/api/v1/account/dashboard","type":0,"val":"dashboard","end":""}],
     types: placeholder as Registry['dashboard.dashboard']['types'],
   },
-  'ibkr_connect.initiate_auth': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/account/ibkr/connect',
-    tokens: [{"old":"/api/v1/account/ibkr/connect","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/connect","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/connect","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/connect","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/connect","type":0,"val":"connect","end":""}],
-    types: placeholder as Registry['ibkr_connect.initiate_auth']['types'],
-  },
-  'ibkr_connect.handle_callback': {
-    methods: ["GET","HEAD"],
-    pattern: '/api/v1/account/ibkr/callback',
-    tokens: [{"old":"/api/v1/account/ibkr/callback","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/callback","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/callback","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/callback","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/callback","type":0,"val":"callback","end":""}],
-    types: placeholder as Registry['ibkr_connect.handle_callback']['types'],
-  },
-  'ibkr_connect.link_flex_service': {
+  'ibkr_connect.generate_token': {
     methods: ["POST"],
-    pattern: '/api/v1/account/ibkr/link-flex',
-    tokens: [{"old":"/api/v1/account/ibkr/link-flex","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/link-flex","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/link-flex","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/link-flex","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/link-flex","type":0,"val":"link-flex","end":""}],
-    types: placeholder as Registry['ibkr_connect.link_flex_service']['types'],
+    pattern: '/api/v1/account/ibkr/token',
+    tokens: [{"old":"/api/v1/account/ibkr/token","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/token","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/token","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/token","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/token","type":0,"val":"token","end":""}],
+    types: placeholder as Registry['ibkr_connect.generate_token']['types'],
+  },
+  'ibkr_connect.exchange_token_for_sso': {
+    methods: ["POST"],
+    pattern: '/api/v1/account/ibkr/sso',
+    tokens: [{"old":"/api/v1/account/ibkr/sso","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/sso","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/sso","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/sso","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/sso","type":0,"val":"sso","end":""}],
+    types: placeholder as Registry['ibkr_connect.exchange_token_for_sso']['types'],
+  },
+  'ibkr_connect.create_account': {
+    methods: ["POST"],
+    pattern: '/api/v1/account/ibkr/create/account',
+    tokens: [{"old":"/api/v1/account/ibkr/create/account","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/create/account","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/create/account","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/create/account","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/create/account","type":0,"val":"create","end":""},{"old":"/api/v1/account/ibkr/create/account","type":0,"val":"account","end":""}],
+    types: placeholder as Registry['ibkr_connect.create_account']['types'],
+  },
+  'ibkr_connect.account_status': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/account/ibkr/accounts/:accountId/status',
+    tokens: [{"old":"/api/v1/account/ibkr/accounts/:accountId/status","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/status","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/status","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/status","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/status","type":0,"val":"accounts","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/status","type":1,"val":"accountId","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/status","type":0,"val":"status","end":""}],
+    types: placeholder as Registry['ibkr_connect.account_status']['types'],
+  },
+  'ibkr_connect.account_pending_tasks': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/account/ibkr/accounts/:accountId/tasks',
+    tokens: [{"old":"/api/v1/account/ibkr/accounts/:accountId/tasks","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/tasks","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/tasks","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/tasks","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/tasks","type":0,"val":"accounts","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/tasks","type":1,"val":"accountId","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/tasks","type":0,"val":"tasks","end":""}],
+    types: placeholder as Registry['ibkr_connect.account_pending_tasks']['types'],
+  },
+  'ibkr_connect.account_details': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/account/ibkr/accounts/:accountId/details',
+    tokens: [{"old":"/api/v1/account/ibkr/accounts/:accountId/details","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/details","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/details","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/details","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/details","type":0,"val":"accounts","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/details","type":1,"val":"accountId","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/details","type":0,"val":"details","end":""}],
+    types: placeholder as Registry['ibkr_connect.account_details']['types'],
+  },
+  'ibkr_connect.account_kyc': {
+    methods: ["GET","HEAD"],
+    pattern: '/api/v1/account/ibkr/accounts/:accountId/kyc',
+    tokens: [{"old":"/api/v1/account/ibkr/accounts/:accountId/kyc","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/kyc","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/kyc","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/kyc","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/kyc","type":0,"val":"accounts","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/kyc","type":1,"val":"accountId","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/kyc","type":0,"val":"kyc","end":""}],
+    types: placeholder as Registry['ibkr_connect.account_kyc']['types'],
+  },
+  'ibkr_connect.continue_registration': {
+    methods: ["POST"],
+    pattern: '/api/v1/account/ibkr/accounts/:accountId/continue-registration',
+    tokens: [{"old":"/api/v1/account/ibkr/accounts/:accountId/continue-registration","type":0,"val":"api","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/continue-registration","type":0,"val":"v1","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/continue-registration","type":0,"val":"account","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/continue-registration","type":0,"val":"ibkr","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/continue-registration","type":0,"val":"accounts","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/continue-registration","type":1,"val":"accountId","end":""},{"old":"/api/v1/account/ibkr/accounts/:accountId/continue-registration","type":0,"val":"continue-registration","end":""}],
+    types: placeholder as Registry['ibkr_connect.continue_registration']['types'],
   },
 } as const satisfies Record<string, AdonisEndpoint>
 

@@ -144,11 +144,15 @@ router
             router.get('dashboard', [DashboardController, 'dashboard'])
 
             //IBKR Functions
-            // OAuth Routes
-            router.get('ibkr/connect', [IbkrConnectController, 'initiateAuth'])
-            router.get('ibkr/callback', [IbkrConnectController, 'handleCallback'])
-            // Flex Web Service Manual Linking Route
-            router.post('ibkr/link-flex', [IbkrConnectController, 'linkFlexService'])
+            router.post('/ibkr/token', [IbkrConnectController, 'generateToken'])
+            router.post('/ibkr/sso', [IbkrConnectController, 'exchangeTokenForSso'])
+            router.post('/ibkr/create/account', [IbkrConnectController, 'createAccount'])
+            router.get('/ibkr/accounts/:accountId/status', [IbkrConnectController,'accountStatus',])
+            router.get('/ibkr/accounts/:accountId/tasks', [IbkrConnectController,'accountPendingTasks',])
+            router.get('/ibkr/accounts/:accountId/details', [IbkrConnectController,'accountDetails',])
+            router.get('/ibkr/accounts/:accountId/kyc',[IbkrConnectController, 'accountKyc'])
+            router.post('/ibkr/accounts/:accountId/continue-registration',[IbkrConnectController, 'continueRegistration'])
+            // END OF IBKR AUTH ROUTES
           })
           .use(middleware.mfa()) // Enforces 2FA only on these specific endpoints
       })

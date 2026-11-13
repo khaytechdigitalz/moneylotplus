@@ -871,40 +871,100 @@ export interface Registry {
       errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/dashboards_controller').default['dashboard']>>>
     }
   }
-  'ibkr_connect.initiate_auth': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/account/ibkr/connect'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['initiateAuth']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['initiateAuth']>>>
-    }
-  }
-  'ibkr_connect.handle_callback': {
-    methods: ["GET","HEAD"]
-    pattern: '/api/v1/account/ibkr/callback'
-    types: {
-      body: {}
-      paramsTuple: []
-      params: {}
-      query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['handleCallback']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['handleCallback']>>>
-    }
-  }
-  'ibkr_connect.link_flex_service': {
+  'ibkr_connect.generate_token': {
     methods: ["POST"]
-    pattern: '/api/v1/account/ibkr/link-flex'
+    pattern: '/api/v1/account/ibkr/token'
     types: {
       body: {}
       paramsTuple: []
       params: {}
       query: {}
-      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['linkFlexService']>>>
-      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['linkFlexService']>>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['generateToken']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['generateToken']>>>
+    }
+  }
+  'ibkr_connect.exchange_token_for_sso': {
+    methods: ["POST"]
+    pattern: '/api/v1/account/ibkr/sso'
+    types: {
+      body: {}
+      paramsTuple: []
+      params: {}
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['exchangeTokenForSso']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['exchangeTokenForSso']>>>
+    }
+  }
+  'ibkr_connect.create_account': {
+    methods: ["POST"]
+    pattern: '/api/v1/account/ibkr/create/account'
+    types: {
+      body: ExtractBody<InferInput<(typeof import('#validators/ibkr_hybrid_account_validator').createIbkrHybridAccountValidator)>>
+      paramsTuple: []
+      params: {}
+      query: ExtractQuery<InferInput<(typeof import('#validators/ibkr_hybrid_account_validator').createIbkrHybridAccountValidator)>>
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['createAccount']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['createAccount']>>> | { status: 422; response: { errors: SimpleError[] } }
+    }
+  }
+  'ibkr_connect.account_status': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/account/ibkr/accounts/:accountId/status'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { accountId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['accountStatus']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['accountStatus']>>>
+    }
+  }
+  'ibkr_connect.account_pending_tasks': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/account/ibkr/accounts/:accountId/tasks'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { accountId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['accountPendingTasks']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['accountPendingTasks']>>>
+    }
+  }
+  'ibkr_connect.account_details': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/account/ibkr/accounts/:accountId/details'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { accountId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['accountDetails']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['accountDetails']>>>
+    }
+  }
+  'ibkr_connect.account_kyc': {
+    methods: ["GET","HEAD"]
+    pattern: '/api/v1/account/ibkr/accounts/:accountId/kyc'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { accountId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['accountKyc']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['accountKyc']>>>
+    }
+  }
+  'ibkr_connect.continue_registration': {
+    methods: ["POST"]
+    pattern: '/api/v1/account/ibkr/accounts/:accountId/continue-registration'
+    types: {
+      body: {}
+      paramsTuple: [ParamValue]
+      params: { accountId: ParamValue }
+      query: {}
+      response: ExtractResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['continueRegistration']>>>
+      errorResponse: ExtractErrorResponse<Awaited<ReturnType<import('#controllers/ibkr_connect_controller').default['continueRegistration']>>>
     }
   }
 }

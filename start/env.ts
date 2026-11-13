@@ -50,6 +50,14 @@ export default await Env.create(new URL('../', import.meta.url), {
   */
   MAIL_MAILER: Env.schema.enum(['smtp'] as const),
   MAIL_FROM_NAME: Env.schema.string(),
-  MAIL_FROM_ADDRESS: Env.schema.string()
+  MAIL_FROM_ADDRESS: Env.schema.string(),
+
+/*
+  |----------------------------------------------------------
+  | Variables for configuring the IBKR
+  |----------------------------------------------------------
+  */
+  IBKR_OAUTH_BASE_URL: Env.schema.string(),
+  IBKR_GATEWAY_BASE_URL: Env.schema.string(),
 
 })
